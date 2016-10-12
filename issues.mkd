@@ -1,5 +1,5 @@
 ## Resolved Issues ##
 
-- **[1]** 
+- **[1]** Make all the skeletons for the game states, tigress, cubs, and poacher.
 
 ## Open Issues ##

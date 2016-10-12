@@ -41,7 +41,7 @@ class StartUpState extends BasicGameState {
 	@Override
 	public void render(GameContainer container, StateBasedGame game,
 			Graphics g) throws SlickException {
-		BounceGame bg = (BounceGame)game;
+		TigressGame bg = (TigressGame)game;
 		
 		/*bg.ball.render(g);
 		for (Bang b : bg.explosions)
@@ -64,16 +64,16 @@ class StartUpState extends BasicGameState {
 			int delta) throws SlickException {
 
 		Input input = container.getInput();
-		BounceGame bg = (BounceGame)game;
+		TigressGame bg = (TigressGame)game;
 
 		if (input.isKeyDown(Input.KEY_SPACE))
-			bg.enterState(BounceGame.PLAYINGSTATE);	
+			bg.enterState(TigressGame.PLAYINGSTATE);	
 		
 	}
 
 	@Override
 	public int getID() {
-		return BounceGame.STARTUPSTATE;
+		return TigressGame.STARTUPSTATE;
 	}
 	
 }

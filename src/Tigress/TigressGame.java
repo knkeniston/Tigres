@@ -10,7 +10,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class BounceGame extends StateBasedGame {
+public class TigressGame extends StateBasedGame {
 	
 	public static final int STARTUPSTATE = 0;
 	public static final int PLAYINGSTATE = 1;
@@ -59,7 +59,7 @@ public class BounceGame extends StateBasedGame {
 	 * @param height
 	 *            the window's height
 	 */
-	public BounceGame(String title, int width, int height) {
+	public TigressGame(String title, int width, int height) {
 		super(title);
 		ScreenHeight = height;
 		ScreenWidth = width;
@@ -112,7 +112,7 @@ public class BounceGame extends StateBasedGame {
 	public static void main(String[] args) {
 		AppGameContainer app;
 		try {
-			app = new AppGameContainer(new BounceGame("Break Out!", 800, 600));
+			app = new AppGameContainer(new TigressGame("Break Out!", 800, 600));
 			app.setDisplayMode(800, 600, false);
 			app.setVSync(true);
 			app.start();
