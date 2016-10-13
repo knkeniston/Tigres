@@ -118,11 +118,13 @@ class PlayingState extends BasicGameState {
 			bg.tigress.setVelocity(new Vector(.3f, 0f));
 		} 
 		else if (input.isKeyDown(Input.KEY_W)) {
-			bg.tigress.setVelocity(new Vector(0f, .3f));
-		} 
-		else if (input.isKeyDown(Input.KEY_S)) {
 			bg.tigress.setVelocity(new Vector(0f, -.3f));
 		} 
+		else if (input.isKeyDown(Input.KEY_S)) {
+			bg.tigress.setVelocity(new Vector(0f, .3f));
+		} else {
+			bg.tigress.setVelocity(new Vector(0f, 0f));
+		}
 		bg.tigress.update(delta);
 		
 		/*
