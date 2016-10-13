@@ -24,9 +24,7 @@ import org.newdawn.slick.state.transition.HorizontalSplitTransition;
  * turned on, the bounce counter begins at 0 and increases until 10 at which
  * point a transition to the Game Over state is initiated. The user can also
  * control the ball using the WAS & D keys.
- * 
  * Transitions From StartUpState
- * 
  * Transitions To GameOverState
  */
 class PlayingState extends BasicGameState {
@@ -89,18 +87,14 @@ class PlayingState extends BasicGameState {
 		TigressGame bg = (TigressGame)game;
 		
 		bg.tigress.render(g);
-		
-		/*bg.ball.render(g);
-		bg.paddle.render(g);
-		for (Brick b: bg.bricks) {
-			b.render(g);
+		bg.poacher.render(g);
+		for (Cub c : bg.cubs) {
+			c.render(g);
 		}
 		
 		g.drawString("Lives: " + lives, 10, 50);
 		g.drawString("Level: " + bg.level, 10, 30);
 		
-		for (Bang b : bg.explosions)
-			b.render(g);*/
 	}
 
 	@Override
@@ -126,6 +120,12 @@ class PlayingState extends BasicGameState {
 			bg.tigress.setVelocity(new Vector(0f, 0f));
 		}
 		bg.tigress.update(delta);
+		
+		bg.poacher.update(delta);
+		
+		for (Cub c : bg.cubs) {
+			c.update(delta);
+		}
 		
 		/*
 		else if (input.isKeyDown(Input.KEY_1)) {

@@ -4,32 +4,18 @@ import jig.Entity;
 import jig.ResourceManager;
 import jig.Vector;
 
- class Cub extends Entity {
-
-	private Vector velocity;
+ class Cub extends MovingEntity {
+	
+	public static final String[] facingImages = 
+		{
+			TigressGame.CUB_IMG_RSC/*,
+			TigressGame.TIGRESS_RIGHTIMG_RSC,
+			TigressGame.TIGRESS_FRONTIMG_RSC,
+			TigressGame.TIGRESS_BACKIMG_RSC*/
+		};
 
 	public Cub(final float x, final float y) {
-		super(x, y);
-		/*addImageWithBoundingBox(ResourceManager
-				.getImage(TigressGame.Tigress_IMG_RSC));*/
-		velocity = new Vector(0, 0);
-	}
-
-	public void setVelocity(final Vector v) {
-		velocity = v;
-	}
-
-	public Vector getVelocity() {
-		return velocity;
-	}
-
-	/**
-	 * Update the Tigress
-	 * 
-	 * @param delta
-	 *            the number of milliseconds since the last update
-	 */
-	public void update(final int delta) {
-		translate(velocity.scale(delta));
+		super(x, y, facingImages, LEFT);
+		setVelocity(new Vector(0, 0));
 	}
 }
