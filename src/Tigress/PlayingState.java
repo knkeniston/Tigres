@@ -88,6 +88,8 @@ class PlayingState extends BasicGameState {
 			Graphics g) throws SlickException {
 		TigressGame bg = (TigressGame)game;
 		
+		bg.tigress.render(g);
+		
 		/*bg.ball.render(g);
 		bg.paddle.render(g);
 		for (Brick b: bg.bricks) {
@@ -109,12 +111,21 @@ class PlayingState extends BasicGameState {
 		TigressGame bg = (TigressGame)game;
 		
 		// Control user input
-		/*if (input.isKeyDown(Input.KEY_A)) {
-			bg.paddle.setVelocity(new Vector(-.3f, 0));
+		if (input.isKeyDown(Input.KEY_A)) {
+			bg.tigress.setVelocity(new Vector(-.3f, 0));
 		}
 		else if (input.isKeyDown(Input.KEY_D)) {
-			bg.paddle.setVelocity(new Vector(.3f, 0f));
+			bg.tigress.setVelocity(new Vector(.3f, 0f));
 		} 
+		else if (input.isKeyDown(Input.KEY_W)) {
+			bg.tigress.setVelocity(new Vector(0f, .3f));
+		} 
+		else if (input.isKeyDown(Input.KEY_S)) {
+			bg.tigress.setVelocity(new Vector(0f, -.3f));
+		} 
+		bg.tigress.update(delta);
+		
+		/*
 		else if (input.isKeyDown(Input.KEY_1)) {
 			bg.level = 1;
 			game.enterState(BounceGame.STARTUPSTATE, new EmptyTransition(), new HorizontalSplitTransition());
@@ -223,14 +234,15 @@ class PlayingState extends BasicGameState {
 				game.enterState(BounceGame.STARTUPSTATE, new EmptyTransition(), new HorizontalSplitTransition());
 			}
 		}
+		*/
 
 		// Game over state if no lives left
 		if (lives <= 0) {
-			((GameOverState)game.getState(BounceGame.GAMEOVERSTATE)).setUserScore(bounces);
+			((GameOverState)game.getState(TigressGame.GAMEOVERSTATE)).setUserScore(bounces);
 			bg.level = 1;
 			lives = 3;
-			game.enterState(BounceGame.GAMEOVERSTATE);
-		}*/
+			game.enterState(TigressGame.GAMEOVERSTATE);
+		}
 		
 	}
 
