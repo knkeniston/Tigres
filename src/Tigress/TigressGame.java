@@ -18,6 +18,9 @@ public class TigressGame extends StateBasedGame {
 	
 	
 	public static final String TIGRESS_LEFTIMG_RSC = "Tigress/resources/tigress-left.png";
+	public static final String TIGRESS_RIGHTIMG_RSC = "Tigress/resources/tigress-right.png";
+	public static final String TIGRESS_FRONTIMG_RSC = "Tigress/resources/tigress-front.png";
+	public static final String TIGRESS_BACKIMG_RSC = "Tigress/resources/tigress-back.png";
 	
 	/*
 	 * public static final String HITWALL_RSC = "bounce/resource/wall_hit.wav";
@@ -70,6 +73,9 @@ public class TigressGame extends StateBasedGame {
 		ResourceManager.loadImage(BALL_BALLIMG_RSC);
 		*/
 		ResourceManager.loadImage(TIGRESS_LEFTIMG_RSC);
+		ResourceManager.loadImage(TIGRESS_RIGHTIMG_RSC);
+		ResourceManager.loadImage(TIGRESS_FRONTIMG_RSC);
+		ResourceManager.loadImage(TIGRESS_BACKIMG_RSC);
 		
 		level = 1;
 		tigress = new Tigress(ScreenWidth / 2, ScreenHeight / 2);
