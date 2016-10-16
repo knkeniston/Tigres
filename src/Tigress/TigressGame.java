@@ -26,6 +26,11 @@ public class TigressGame extends StateBasedGame {
 	public static final String TIGRESS_FRONTIMG_RSC = "Tigress/resources/tigress-front.png";
 	public static final String TIGRESS_BACKIMG_RSC = "Tigress/resources/tigress-back.png";
 	
+	public static final String TIGRESS_HOLDING_LEFTIMG_RSC = "Tigress/resources/tigress-holding-left.png";
+	public static final String TIGRESS_HOLDING_RIGHTIMG_RSC = "Tigress/resources/tigress-holding-right.png";
+	public static final String TIGRESS_HOLDING_FRONTIMG_RSC = "Tigress/resources/tigress-holding-front.png";
+	public static final String TIGRESS_HOLDING_BACKIMG_RSC = "Tigress/resources/tigress-holding-back.png";
+	
 	public static final String CUB_IMG_RSC = "Tigress/resources/cub.png";
 	
 	public static final String POACHER_LEFTIMG_RSC = "Tigress/resources/poacher-left.png";
@@ -78,10 +83,18 @@ public class TigressGame extends StateBasedGame {
 		// preload all the resources to avoid warnings & minimize latency...
 		ResourceManager.loadImage(BALL_BALLIMG_RSC);
 		*/
+		
+		ResourceManager.loadImage(BACKGROUND_IMG_RSC);
+		
 		ResourceManager.loadImage(TIGRESS_LEFTIMG_RSC);
 		ResourceManager.loadImage(TIGRESS_RIGHTIMG_RSC);
 		ResourceManager.loadImage(TIGRESS_FRONTIMG_RSC);
 		ResourceManager.loadImage(TIGRESS_BACKIMG_RSC);
+		
+		ResourceManager.loadImage(TIGRESS_HOLDING_LEFTIMG_RSC);
+		ResourceManager.loadImage(TIGRESS_HOLDING_RIGHTIMG_RSC);
+		ResourceManager.loadImage(TIGRESS_HOLDING_FRONTIMG_RSC);
+		ResourceManager.loadImage(TIGRESS_HOLDING_BACKIMG_RSC);
 		
 		ResourceManager.loadImage(CUB_IMG_RSC);
 		
@@ -91,7 +104,7 @@ public class TigressGame extends StateBasedGame {
 		ResourceManager.loadImage(MEAT_IMG_RSC);
 		
 		level = 1;
-		tigress = new Tigress(ScreenWidth / 2, ScreenHeight / 2);
+		tigress = new Tigress(ScreenWidth - 50, ScreenHeight - 50);
 		poacher = new Poacher(100, 100);
 		for (int i = 0; i < 5; i++) 
 			cubs.add(new Cub(100 + i * 100, 300));

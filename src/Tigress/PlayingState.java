@@ -130,6 +130,10 @@ class PlayingState extends BasicGameState {
 			}
 		}
 		
+		if (input.isKeyDown(Input.KEY_SPACE) &&  bg.tigress.holdingCub()) {
+			bg.tigress.dropCub();
+		}
+		
 		
 		/*
 		// Collision between ball and paddle

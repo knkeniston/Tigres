@@ -29,7 +29,13 @@ import jig.Vector;
 	 * @param val: value to set held as
 	 */
 	public void setHeld(boolean val) {
-		//TODO: if true, get rid of cub's image on background
+		if (!val) {
+			setFacing(LEFT);
+		} else if (getCurImage() != null) {
+			removeImage(ResourceManager.getImage(getCurImage()));
+			setCurImage(null);
+			setFacing(-1);
+		}
 		held = val;
 	}
 	
