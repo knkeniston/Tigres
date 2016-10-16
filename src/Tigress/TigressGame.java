@@ -12,15 +12,26 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class TigressGame extends StateBasedGame {
 	
+	// states of the game
 	public static final int STARTUPSTATE = 0;
 	public static final int PLAYINGSTATE = 1;
 	public static final int GAMEOVERSTATE = 2;
 	
+	// background
+	public static final String BACKGROUND_IMG_RSC = "Tigress/resources/background.png";
 	
+	// all entity images used in game
 	public static final String TIGRESS_LEFTIMG_RSC = "Tigress/resources/tigress-left.png";
 	public static final String TIGRESS_RIGHTIMG_RSC = "Tigress/resources/tigress-right.png";
 	public static final String TIGRESS_FRONTIMG_RSC = "Tigress/resources/tigress-front.png";
 	public static final String TIGRESS_BACKIMG_RSC = "Tigress/resources/tigress-back.png";
+	
+	public static final String CUB_IMG_RSC = "Tigress/resources/cub.png";
+	
+	public static final String POACHER_LEFTIMG_RSC = "Tigress/resources/poacher-left.png";
+	
+	public static final String FLOWER_IMG_RSC = "Tigress/resources/flower.png";
+	public static final String MEAT_IMG_RSC = "Tigress/resources/meat.png";
 	
 	/*
 	 * public static final String HITWALL_RSC = "bounce/resource/wall_hit.wav";
@@ -31,27 +42,27 @@ public class TigressGame extends StateBasedGame {
 	
 	int level;
 	Tigress tigress;
-	/*Ball ball;
-	Paddle paddle;
-	ArrayList<Bang> explosions;
-	ArrayList<Brick> bricks;*/
+	Poacher poacher;
+	ArrayList<Cub> cubs;
+	ArrayList<Flower> flowers;
+	ArrayList<Meat> meats;
+
 	/**
-	 * Create the BounceGame frame, saving the width and height for later use.
-	 * 
-	 * @param title
-	 *            the window's title
-	 * @param width
-	 *            the window's width
-	 * @param height
-	 *            the window's height
+	 * Create the TigressGame frame, saving the width and height for later use.
+	 * @param title: the window's title
+	 * @param width: the window's width
+	 * @param height: the window's height
 	 */
 	public TigressGame(String title, int width, int height) {
 		super(title);
+		
 		ScreenHeight = height;
 		ScreenWidth = width;
 
 		Entity.setCoarseGrainedCollisionBoundary(Entity.AABB);
-		//explosions = new ArrayList<Bang>(10);	
+		cubs = new ArrayList<Cub>();
+		flowers = new ArrayList<Flower>();
+		meats = new ArrayList<Meat>();
 	}
 
 
@@ -61,11 +72,6 @@ public class TigressGame extends StateBasedGame {
 		addState(new GameOverState());
 		addState(new PlayingState());
 		
-		// the sound resource takes a particularly long time to load,
-		// we preload it here to (1) reduce latency when we first play it
-		// and (2) because loading it will load the audio libraries and
-		// unless that is done now, we can't *disable* sound as we
-		// attempt to do in the startUp() method.		
 		/*
 		ResourceManager.loadSound(HITWALL_RSC);	
 
@@ -77,11 +83,20 @@ public class TigressGame extends StateBasedGame {
 		ResourceManager.loadImage(TIGRESS_FRONTIMG_RSC);
 		ResourceManager.loadImage(TIGRESS_BACKIMG_RSC);
 		
+		ResourceManager.loadImage(CUB_IMG_RSC);
+		
+		ResourceManager.loadImage(POACHER_LEFTIMG_RSC);
+		
+		ResourceManager.loadImage(FLOWER_IMG_RSC);
+		ResourceManager.loadImage(MEAT_IMG_RSC);
+		
 		level = 1;
 		tigress = new Tigress(ScreenWidth / 2, ScreenHeight / 2);
-		/*ball = new Ball(ScreenWidth / 2, ScreenHeight / 2, .1f, .2f);
-		paddle = new Paddle(ScreenWidth / 2, ScreenHeight - 13);
-		bricks = new ArrayList<Brick>();	*/
+		poacher = new Poacher(100, 100);
+		for (int i = 0; i < 5; i++) 
+			cubs.add(new Cub(100 + i * 100, 300));
+		flowers.add(new Flower(487, 135));
+		meats.add(new Meat(291, 529));
 
 	}
 	

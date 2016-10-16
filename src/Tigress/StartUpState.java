@@ -16,9 +16,7 @@ import org.newdawn.slick.state.StateBasedGame;
  * turned off, and the bounce counter shows '?'. The user can only interact with
  * the game by pressing the SPACE key which transitions to the Playing State.
  * Otherwise, all game objects are rendered and updated normally.
- * 
  * Transitions From (Initialization), GameOverState
- * 
  * Transitions To PlayingState
  */
 class StartUpState extends BasicGameState {
@@ -42,6 +40,9 @@ class StartUpState extends BasicGameState {
 	public void render(GameContainer container, StateBasedGame game,
 			Graphics g) throws SlickException {
 		TigressGame bg = (TigressGame)game;
+		
+		g.drawImage(ResourceManager.getImage(TigressGame.BACKGROUND_IMG_RSC),
+				0, 0);	
 		
 		/*bg.ball.render(g);
 		for (Bang b : bg.explosions)
