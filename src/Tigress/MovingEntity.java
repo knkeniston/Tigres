@@ -34,6 +34,14 @@ import jig.Vector;
 	}
 	
 	/**
+	 * Sets the current facing images for the entity.
+	 * @param images: list of images to set as
+	 */
+	protected void setFacingImages(String[] images) {
+		facingImages = images;
+	}
+	
+	/**
 	 * Sets the current image of the entity.
 	 * @param image: image to set the entity as.
 	 */
@@ -44,7 +52,7 @@ import jig.Vector;
 	/**
 	 * @return curImage: current image of the entity
 	 */
-	private String getCurImage() {
+	protected String getCurImage() {
 		return curImage;
 	}
 
@@ -81,7 +89,7 @@ import jig.Vector;
 	 * @param direction: direction entity will be facing 
 	 */
 	public void setFacing(final int direction) {
-		if (facing != direction) {
+		if (facing != direction && direction != -1) {
 			if (curImage != null) 
 				removeImage(ResourceManager.getImage(curImage));
 			addImageWithBoundingBox(ResourceManager

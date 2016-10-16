@@ -14,7 +14,14 @@ import jig.Vector;
 			TigressGame.TIGRESS_BACKIMG_RSC
 		};
 	
-	private boolean holdingCub;
+	public static final String[] facingHoldImages = 
+		{
+			TigressGame.TIGRESS_HOLDING_LEFTIMG_RSC,
+			TigressGame.TIGRESS_HOLDING_RIGHTIMG_RSC,
+			TigressGame.TIGRESS_HOLDING_FRONTIMG_RSC,
+			TigressGame.TIGRESS_HOLDING_BACKIMG_RSC
+		};
+	
 	private boolean flowered;
 	private boolean eaten;
 	private int powerTime;
@@ -23,25 +30,10 @@ import jig.Vector;
 	public Tigress(final float x, final float y) {
 		super(x, y, facingImages, LEFT);
 		setVelocity(new Vector(0, 0));
-		holdingCub = false;
 		flowered = false;
 		eaten = false;
 		powerTime = 0;
 		rescueCub = null;
-	}
-	
-	/**
-	 * @param status: true if holding cub, false if not
-	 */
-	public void setHolding(boolean status) {
-		holdingCub = status;
-	}
-	
-	/**
-	 * @return holdingCub: true if holding cub, false if not
-	 */
-	public boolean getHolding() {
-		return holdingCub;
 	}
 	
 	/**
@@ -66,9 +58,10 @@ import jig.Vector;
 	public void setRescueCub(Cub c) {
 		rescueCub = c;
 		if (c != null) {
-			holdingCub = true;
 			c.setHeld(true);
-			// TODO: set tigress image to holding the cub
+			setFacingImages(facingHoldImages);
+		} else {
+			setFacingImages(facingImages);
 		}
 	}
 	
@@ -76,7 +69,7 @@ import jig.Vector;
 	 * @return holdingCub: true if tigress is holding cub, false if not
 	 */
 	public boolean holdingCub() {
-		return holdingCub;
+		return rescueCub != null;
 	}
 	
 	/**
@@ -84,6 +77,23 @@ import jig.Vector;
 	 */
 	public Cub getRescueCub() {
 		return rescueCub;
+	}
+	
+	public void dropCub() {
+		Cub c = getRescueCub();
+		setRescueCub(null);
+		c.setHeld(false);
+		int xOffset = 0;
+		int yOffset = 0;
+		if (getFacing() == LEFT)
+			xOffset = -70;
+		else if (getFacing() == RIGHT)
+			xOffset = 70;
+		else if (getFacing() == FRONT)
+			yOffset = 70;
+		else
+			yOffset = -70;
+		c.setPosition(getPosition().getX() + xOffset, getPosition().getY() + yOffset);
 	}
 	
 }
