@@ -4,9 +4,10 @@
 - **[4]** Remake the tigress sprites and add all the sides of her.
 - **[3]** Flesh out the skeletons for the entities and states.
 - **[8]** Make the tigress collision with the cub working.
+- **[9]** Make collisions with poacher working.
 
 ## Open Issues ##
 - **[5]** Remake the cub sprite.
 - **[6]** Make the poacher sprite.
 - **[7]** Make the map layout.
-- **[9]** Make collisions with poacher working.
+- **[10]** Make poacher pathfind to closest tiger.
