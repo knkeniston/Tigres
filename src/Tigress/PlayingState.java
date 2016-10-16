@@ -120,23 +120,18 @@ class PlayingState extends BasicGameState {
 		for (Cub c : bg.cubs) 
 			c.update(delta);
 		
-		/*
-		else if (input.isKeyDown(Input.KEY_1)) {
-			bg.level = 1;
-			game.enterState(BounceGame.STARTUPSTATE, new EmptyTransition(), new HorizontalSplitTransition());
-		} 
-		else if (input.isKeyDown(Input.KEY_2)) {
-			bg.level = 2;
-			game.enterState(BounceGame.STARTUPSTATE, new EmptyTransition(), new HorizontalSplitTransition());
-		} 
-		else if (input.isKeyDown(Input.KEY_3)) {
-			bg.level = 3;
-			game.enterState(BounceGame.STARTUPSTATE, new EmptyTransition(), new HorizontalSplitTransition());
-		} 
-		else {
-			bg.paddle.setVelocity(new Vector(0f, 0f));
+		if (!bg.tigress.holdingCub()) {
+			for (Cub c : bg.cubs) {
+				Collision coll = bg.tigress.collides(c);
+				if (coll != null) {
+					bg.tigress.setRescueCub(c);
+					break;
+				}
+			}
 		}
 		
+		
+		/*
 		// Collision between ball and paddle
 		Collision paddleCol = bg.ball.collides(bg.paddle);
 		if (paddleCol != null && timeLastCol <= 0) {

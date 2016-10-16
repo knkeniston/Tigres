@@ -13,9 +13,28 @@ import jig.Vector;
 			TigressGame.TIGRESS_FRONTIMG_RSC,
 			TigressGame.TIGRESS_BACKIMG_RSC*/
 		};
+	
+	private boolean trapped;
 
 	public Poacher(final float x, final float y) {
 		super(x, y, facingImages, LEFT);
 		setVelocity(new Vector(0, 0));
+		trapped = false;
 	}
+	
+	/**
+	 * Set whether the poacher is trapped in a vine or not.
+	 * @param val: true if yes, false if not
+	 */
+	public void setTrapped(boolean val) {
+		trapped = val;
+	}
+	
+	/**
+	 * @return trapped: true if trapped in vine, false if not
+	 */
+	public boolean isTrapped() {
+		return trapped;
+	}
+	
 }

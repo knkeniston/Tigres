@@ -18,6 +18,7 @@ import jig.Vector;
 	private boolean flowered;
 	private boolean eaten;
 	private int powerTime;
+	private Cub rescueCub;
 
 	public Tigress(final float x, final float y) {
 		super(x, y, facingImages, LEFT);
@@ -26,6 +27,7 @@ import jig.Vector;
 		flowered = false;
 		eaten = false;
 		powerTime = 0;
+		rescueCub = null;
 	}
 	
 	/**
@@ -54,6 +56,34 @@ import jig.Vector;
 	 */
 	public int getPowerTime() {
 		return powerTime;
+	}
+	
+	/**
+	 * Sets the cub that the tigress is currently holding and marks her holdingCub
+	 * flag as true.
+	 * @param c: cub to be rescued
+	 */
+	public void setRescueCub(Cub c) {
+		rescueCub = c;
+		if (c != null) {
+			holdingCub = true;
+			c.setHeld(true);
+			// TODO: set tigress image to holding the cub
+		}
+	}
+	
+	/**
+	 * @return holdingCub: true if tigress is holding cub, false if not
+	 */
+	public boolean holdingCub() {
+		return holdingCub;
+	}
+	
+	/**
+	 * @return rescueCub: the cub that the tigress is currently holding
+	 */
+	public Cub getRescueCub() {
+		return rescueCub;
 	}
 	
 }
