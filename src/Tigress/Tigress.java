@@ -79,6 +79,9 @@ import jig.Vector;
 		return rescueCub;
 	}
 	
+	/**
+	 * Makes the tigress drop the cub she is currently holding in front of her
+	 */
 	public void dropCub() {
 		Cub c = getRescueCub();
 		setRescueCub(null);

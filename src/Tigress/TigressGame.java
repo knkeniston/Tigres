@@ -38,9 +38,7 @@ public class TigressGame extends StateBasedGame {
 	public static final String FLOWER_IMG_RSC = "Tigress/resources/flower.png";
 	public static final String MEAT_IMG_RSC = "Tigress/resources/meat.png";
 	
-	/*
-	 * public static final String HITWALL_RSC = "bounce/resource/wall_hit.wav";
-	 */
+	//public static final String HITWALL_RSC = "bounce/resource/wall_hit.wav";
 
 	public final int ScreenWidth;
 	public final int ScreenHeight;
@@ -77,12 +75,7 @@ public class TigressGame extends StateBasedGame {
 		addState(new GameOverState());
 		addState(new PlayingState());
 		
-		/*
-		ResourceManager.loadSound(HITWALL_RSC);	
-
-		// preload all the resources to avoid warnings & minimize latency...
-		ResourceManager.loadImage(BALL_BALLIMG_RSC);
-		*/
+		//ResourceManager.loadSound(HITWALL_RSC);	
 		
 		ResourceManager.loadImage(BACKGROUND_IMG_RSC);
 		
@@ -105,7 +98,7 @@ public class TigressGame extends StateBasedGame {
 		
 		level = 1;
 		tigress = new Tigress(ScreenWidth - 50, ScreenHeight - 50);
-		poacher = new Poacher(100, 100);
+		poacher = new Poacher(50, 50);
 		for (int i = 0; i < 5; i++) 
 			cubs.add(new Cub(100 + i * 100, 300));
 		flowers.add(new Flower(487, 135));

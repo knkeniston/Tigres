@@ -101,25 +101,14 @@ class PlayingState extends BasicGameState {
 		Input input = container.getInput();
 		TigressGame bg = (TigressGame)game;
 		
-		// Control user input
-		if (input.isKeyDown(Input.KEY_LEFT)) 
-			bg.tigress.setVelocity(new Vector(-.3f, 0));
-		else if (input.isKeyDown(Input.KEY_RIGHT)) 
-			bg.tigress.setVelocity(new Vector(.3f, 0f));
-		else if (input.isKeyDown(Input.KEY_UP)) 
-			bg.tigress.setVelocity(new Vector(0f, -.3f));
-		else if (input.isKeyDown(Input.KEY_DOWN)) 
-			bg.tigress.setVelocity(new Vector(0f, .3f));
-		else 
-			bg.tigress.setVelocity(new Vector(0f, 0f));
+		keyPresses(input, bg, delta);
 	
 		bg.tigress.update(delta);
-		
 		bg.poacher.update(delta);
-		
 		for (Cub c : bg.cubs) 
 			c.update(delta);
 		
+		// tigress collision with cubs
 		if (!bg.tigress.holdingCub()) {
 			for (Cub c : bg.cubs) {
 				Collision coll = bg.tigress.collides(c);
@@ -130,8 +119,24 @@ class PlayingState extends BasicGameState {
 			}
 		}
 		
-		if (input.isKeyDown(Input.KEY_SPACE) &&  bg.tigress.holdingCub()) {
-			bg.tigress.dropCub();
+		// poacher collision with tigress or cubs
+		Collision poacherTigress = bg.tigress.collides(bg.poacher);
+		Collision poacherCub = null;
+		for (Cub c : bg.cubs) {
+			Collision coll = bg.poacher.collides(c);
+			if (coll != null) {
+				bg.tigress.setRescueCub(null);
+				c.removeImage(ResourceManager.getImage(c.getCurImage()));
+				bg.cubs.remove(c);
+				poacherCub = coll;
+				break;
+			}
+		}
+		
+		if (poacherTigress != null || poacherCub != null) {
+			lives -= 1;
+			bg.tigress.setPosition(bg.ScreenWidth - 50, bg.ScreenHeight - 50);
+			bg.poacher.setPosition(50, 50);
 		}
 		
 		
@@ -230,6 +235,30 @@ class PlayingState extends BasicGameState {
 		}
 		*/
 
+		checkLives(game, bg);
+		
+	}
+	
+	private void keyPresses(Input input, TigressGame bg, int delta) {		
+		// Control user input
+		if (input.isKeyDown(Input.KEY_LEFT)) 
+			bg.tigress.setVelocity(new Vector(-.3f, 0));
+		else if (input.isKeyDown(Input.KEY_RIGHT)) 
+			bg.tigress.setVelocity(new Vector(.3f, 0f));
+		else if (input.isKeyDown(Input.KEY_UP)) 
+			bg.tigress.setVelocity(new Vector(0f, -.3f));
+		else if (input.isKeyDown(Input.KEY_DOWN)) 
+			bg.tigress.setVelocity(new Vector(0f, .3f));
+		else 
+			bg.tigress.setVelocity(new Vector(0f, 0f));
+		
+		// if space pressed, tigress drops cub
+		if (input.isKeyDown(Input.KEY_SPACE) && bg.tigress.holdingCub()) 
+			bg.tigress.dropCub();
+		
+	}
+	
+	private void checkLives(StateBasedGame game, TigressGame bg) {
 		// Game over state if no lives left
 		if (lives <= 0) {
 			//((GameOverState)game.getState(TigressGame.GAMEOVERSTATE)).setUserScore(bounces);
@@ -237,7 +266,6 @@ class PlayingState extends BasicGameState {
 			lives = 3;
 			game.enterState(TigressGame.GAMEOVERSTATE);
 		}
-		
 	}
 
 	@Override
