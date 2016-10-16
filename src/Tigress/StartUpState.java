@@ -41,6 +41,9 @@ class StartUpState extends BasicGameState {
 			Graphics g) throws SlickException {
 		TigressGame bg = (TigressGame)game;
 		
+		g.drawImage(ResourceManager.getImage(TigressGame.BACKGROUND_IMG_RSC),
+				0, 0);	
+		
 		/*bg.ball.render(g);
 		for (Bang b : bg.explosions)
 			b.render(g);*/

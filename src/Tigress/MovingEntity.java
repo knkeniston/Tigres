@@ -42,8 +42,7 @@ import jig.Vector;
 	}
 	
 	/**
-	 * Returns the current image of the entity.
-	 * @return curImage: current image
+	 * @return curImage: current image of the entity
 	 */
 	private String getCurImage() {
 		return curImage;
@@ -56,21 +55,20 @@ import jig.Vector;
 	 */
 	public void setVelocity(final Vector v) {
 		velocity = v;
+		
 		if (v.getX() != 0 || v.getY() != 0) {
-			if (v.getX() < 0) {
+			if (v.getX() < 0) 
 				setFacing(LEFT);
-			} else if (v.getX() > 0) {
+			else if (v.getX() > 0) 
 				setFacing(RIGHT);
-			} else if (v.getY() < 0) {
+			else if (v.getY() < 0) 
 				setFacing(BACK);
-			} else {
+			else 
 				setFacing(FRONT);
-			}
 		}
 	}
 
 	/**
-	 * Returns the current velocity.
 	 * @return velocity: current velocity
 	 */
 	public Vector getVelocity() {
@@ -84,9 +82,8 @@ import jig.Vector;
 	 */
 	public void setFacing(final int direction) {
 		if (facing != direction) {
-			if (curImage != null) {
+			if (curImage != null) 
 				removeImage(ResourceManager.getImage(curImage));
-			}
 			addImageWithBoundingBox(ResourceManager
 					.getImage(facingImages[direction]));
 			curImage = facingImages[direction];
@@ -95,7 +92,6 @@ import jig.Vector;
 	}
 
 	/**
-	 * Returns current facing direction of entity.
 	 * @return facing: direction entity is currently facing
 	 */
 	public int getFacing() {

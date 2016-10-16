@@ -17,13 +17,21 @@ public class TigressGame extends StateBasedGame {
 	public static final int PLAYINGSTATE = 1;
 	public static final int GAMEOVERSTATE = 2;
 	
+	// background
+	public static final String BACKGROUND_IMG_RSC = "Tigress/resources/background.png";
+	
 	// all entity images used in game
 	public static final String TIGRESS_LEFTIMG_RSC = "Tigress/resources/tigress-left.png";
 	public static final String TIGRESS_RIGHTIMG_RSC = "Tigress/resources/tigress-right.png";
 	public static final String TIGRESS_FRONTIMG_RSC = "Tigress/resources/tigress-front.png";
 	public static final String TIGRESS_BACKIMG_RSC = "Tigress/resources/tigress-back.png";
+	
 	public static final String CUB_IMG_RSC = "Tigress/resources/cub.png";
+	
 	public static final String POACHER_LEFTIMG_RSC = "Tigress/resources/poacher-left.png";
+	
+	public static final String FLOWER_IMG_RSC = "Tigress/resources/flower.png";
+	public static final String MEAT_IMG_RSC = "Tigress/resources/meat.png";
 	
 	/*
 	 * public static final String HITWALL_RSC = "bounce/resource/wall_hit.wav";
@@ -36,6 +44,8 @@ public class TigressGame extends StateBasedGame {
 	Tigress tigress;
 	Poacher poacher;
 	ArrayList<Cub> cubs;
+	ArrayList<Flower> flowers;
+	ArrayList<Meat> meats;
 
 	/**
 	 * Create the TigressGame frame, saving the width and height for later use.
@@ -45,11 +55,14 @@ public class TigressGame extends StateBasedGame {
 	 */
 	public TigressGame(String title, int width, int height) {
 		super(title);
+		
 		ScreenHeight = height;
 		ScreenWidth = width;
 
 		Entity.setCoarseGrainedCollisionBoundary(Entity.AABB);
 		cubs = new ArrayList<Cub>();
+		flowers = new ArrayList<Flower>();
+		meats = new ArrayList<Meat>();
 	}
 
 
@@ -74,12 +87,16 @@ public class TigressGame extends StateBasedGame {
 		
 		ResourceManager.loadImage(POACHER_LEFTIMG_RSC);
 		
+		ResourceManager.loadImage(FLOWER_IMG_RSC);
+		ResourceManager.loadImage(MEAT_IMG_RSC);
+		
 		level = 1;
 		tigress = new Tigress(ScreenWidth / 2, ScreenHeight / 2);
 		poacher = new Poacher(100, 100);
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 5; i++) 
 			cubs.add(new Cub(100 + i * 100, 300));
-		}
+		flowers.add(new Flower(487, 135));
+		meats.add(new Meat(291, 529));
 
 	}
 	

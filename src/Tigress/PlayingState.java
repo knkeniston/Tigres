@@ -28,29 +28,20 @@ import org.newdawn.slick.state.transition.HorizontalSplitTransition;
  * Transitions To GameOverState
  */
 class PlayingState extends BasicGameState {
-	int bounces;
 	int lives;
-	int timeX;
-	int timeY;
-	int timeLastCol;
-	boolean addBricks;
-	//Map<Brick, Integer> timeBricks;
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		lives = 3;
-		bounces = 0;
 	}
 
 	@Override
 	public void enter(GameContainer container, StateBasedGame game) {
-		timeX = 0;
-		timeY = 0;
-		timeLastCol = 0;
-		//timeBricks = new HashMap<Brick, Integer>();
 		container.setSoundOn(true);
 		TigressGame bg = (TigressGame)game;
+		
+		
 		/*bg.bricks.clear();
 		
 		if (bg.level == 1) {
@@ -86,11 +77,17 @@ class PlayingState extends BasicGameState {
 			Graphics g) throws SlickException {
 		TigressGame bg = (TigressGame)game;
 		
+		g.drawImage(ResourceManager.getImage(TigressGame.BACKGROUND_IMG_RSC),
+				0, 0);	
+		
 		bg.tigress.render(g);
 		bg.poacher.render(g);
-		for (Cub c : bg.cubs) {
+		for (Cub c : bg.cubs) 
 			c.render(g);
-		}
+		for (Flower f : bg.flowers) 
+			f.render(g);
+		for (Meat m : bg.meats) 
+			m.render(g);
 		
 		g.drawString("Lives: " + lives, 10, 50);
 		g.drawString("Level: " + bg.level, 10, 30);
@@ -105,27 +102,23 @@ class PlayingState extends BasicGameState {
 		TigressGame bg = (TigressGame)game;
 		
 		// Control user input
-		if (input.isKeyDown(Input.KEY_A)) {
+		if (input.isKeyDown(Input.KEY_LEFT)) 
 			bg.tigress.setVelocity(new Vector(-.3f, 0));
-		}
-		else if (input.isKeyDown(Input.KEY_D)) {
+		else if (input.isKeyDown(Input.KEY_RIGHT)) 
 			bg.tigress.setVelocity(new Vector(.3f, 0f));
-		} 
-		else if (input.isKeyDown(Input.KEY_W)) {
+		else if (input.isKeyDown(Input.KEY_UP)) 
 			bg.tigress.setVelocity(new Vector(0f, -.3f));
-		} 
-		else if (input.isKeyDown(Input.KEY_S)) {
+		else if (input.isKeyDown(Input.KEY_DOWN)) 
 			bg.tigress.setVelocity(new Vector(0f, .3f));
-		} else {
+		else 
 			bg.tigress.setVelocity(new Vector(0f, 0f));
-		}
+	
 		bg.tigress.update(delta);
 		
 		bg.poacher.update(delta);
 		
-		for (Cub c : bg.cubs) {
+		for (Cub c : bg.cubs) 
 			c.update(delta);
-		}
 		
 		/*
 		else if (input.isKeyDown(Input.KEY_1)) {
@@ -240,7 +233,7 @@ class PlayingState extends BasicGameState {
 
 		// Game over state if no lives left
 		if (lives <= 0) {
-			((GameOverState)game.getState(TigressGame.GAMEOVERSTATE)).setUserScore(bounces);
+			//((GameOverState)game.getState(TigressGame.GAMEOVERSTATE)).setUserScore(bounces);
 			bg.level = 1;
 			lives = 3;
 			game.enterState(TigressGame.GAMEOVERSTATE);
