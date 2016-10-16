@@ -2,9 +2,10 @@
 - **[1]** Make all the skeletons for the game states, tigress, cubs, and poacher.
 - **[2]** Add sprites.
 - **[4]** Remake the tigress sprites and add all the sides of her.
+- **[3]** Flesh out the skeletons for the entities and states.
 
 ## Open Issues ##
-- **[3]** Flesh out the skeletons for the entities and states.
 - **[5]** Remake the cub sprite.
 - **[6]** Make the poacher sprite.
 - **[7]** Make the map layout.
+- **[8]** Make the tigress collision with the cub working.
