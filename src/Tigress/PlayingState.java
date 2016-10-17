@@ -58,6 +58,8 @@ class PlayingState extends BasicGameState {
 			f.render(g);
 		for (Meat m : bg.meats) 
 			m.render(g);
+		for (Underbrush u : bg.underbrushes)
+			u.render(g);
 		
 		g.drawString("Lives: " + lives, 10, 50);
 		g.drawString("Level: " + bg.level, 10, 30);
@@ -112,7 +114,7 @@ class PlayingState extends BasicGameState {
 		//ResourceManager.getSound(BounceGame.HITPADDLE_RSC).play();
 		
 		// Change levels
-		if (bg.bricks.size() == 0) {
+		/*if (bg.bricks.size() == 0) {
 			bg.level++;
 			if (bg.level == 4) {
 				game.enterState(BounceGame.GAMEOVERSTATE, new EmptyTransition(), new HorizontalSplitTransition());

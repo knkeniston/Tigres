@@ -1,5 +1,7 @@
 package Tigress;
 
+import java.util.ArrayList;
+
 import jig.Entity;
 import jig.ResourceManager;
 import jig.Vector;
@@ -16,10 +18,14 @@ import jig.Vector;
 	
 	private boolean trapped;
 
-	public Poacher(final float x, final float y) {
+	public Poacher(final float x, final float y) { 
 		super(x, y, facingImages, LEFT);
 		setVelocity(new Vector(0, 0));
 		trapped = false;
+	}
+	
+	private void nearestTiger(ArrayList<Cub> cubs, Tigress tigress) {
+		
 	}
 	
 	/**
