@@ -37,6 +37,7 @@ public class TigressGame extends StateBasedGame {
 	
 	public static final String FLOWER_IMG_RSC = "Tigress/resources/flower.png";
 	public static final String MEAT_IMG_RSC = "Tigress/resources/meat.png";
+	public static final String UNDERBRUSH_IMG_RSC = "Tigress/resources/underbrush.png";
 	
 	//public static final String HITWALL_RSC = "bounce/resource/wall_hit.wav";
 
@@ -48,8 +49,9 @@ public class TigressGame extends StateBasedGame {
 	Poacher poacher;
 	ArrayList<Cub> cubs;
 	ArrayList<Flower> flowers;
-	ArrayList<Meat> meats;
-
+	ArrayList<Meat> meats;	
+	ArrayList<Underbrush> underbrushes;
+	
 	/**
 	 * Create the TigressGame frame, saving the width and height for later use.
 	 * @param title: the window's title
@@ -66,6 +68,7 @@ public class TigressGame extends StateBasedGame {
 		cubs = new ArrayList<Cub>();
 		flowers = new ArrayList<Flower>();
 		meats = new ArrayList<Meat>();
+		underbrushes = new ArrayList<Underbrush>();
 	}
 
 
@@ -95,6 +98,7 @@ public class TigressGame extends StateBasedGame {
 		
 		ResourceManager.loadImage(FLOWER_IMG_RSC);
 		ResourceManager.loadImage(MEAT_IMG_RSC);
+		ResourceManager.loadImage(UNDERBRUSH_IMG_RSC);
 		
 		level = 1;
 		tigress = new Tigress(ScreenWidth - 50, ScreenHeight - 50);
@@ -103,6 +107,7 @@ public class TigressGame extends StateBasedGame {
 			cubs.add(new Cub(100 + i * 100, 300));
 		flowers.add(new Flower(487, 135));
 		meats.add(new Meat(291, 529));
+		underbrushes.add(new Underbrush(ScreenWidth - 50, 50));
 
 	}
 	
