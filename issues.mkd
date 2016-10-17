@@ -10,4 +10,4 @@
 - **[5]** Remake the cub sprite.
 - **[6]** Make the poacher sprite.
 - **[7]** Make the map layout.
-- **[10]** Make poacher pathfind to closest tiger.
+- **[10]** Make the underbrush class.
