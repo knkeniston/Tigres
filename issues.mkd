@@ -11,3 +11,4 @@
 - **[5]** Remake the cub sprite.
 - **[6]** Make the poacher sprite.
 - **[7]** Make the map layout.
+- **[11]** Make poacher pathfinding work.
