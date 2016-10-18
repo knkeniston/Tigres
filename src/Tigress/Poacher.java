@@ -1,6 +1,8 @@
 package Tigress;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import jig.Entity;
 import jig.ResourceManager;
@@ -24,8 +26,14 @@ import jig.Vector;
 		trapped = false;
 	}
 	
-	private void nearestTiger(ArrayList<Cub> cubs, Tigress tigress) {
-		
+	private void nearestTiger(ArrayList<Cub> cubs, Tigress tigress, ArrayList<Vertex> vertices) {
+		Map<Vector, Entity> m = new HashMap<Vector, Entity>();
+		m.put(tigress.getPosition(), tigress);
+		for (Cub c : cubs)
+			m.put(c.getPosition(), c);
+		for (Vector pos : m.keySet()) {
+			
+		}
 	}
 	
 	/**

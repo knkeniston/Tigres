@@ -60,6 +60,8 @@ class PlayingState extends BasicGameState {
 			m.render(g);
 		for (Underbrush u : bg.underbrushes)
 			u.render(g);
+		for (Vertex v : bg.vertices)
+			v.render(g);
 		
 		g.drawString("Lives: " + lives, 10, 50);
 		g.drawString("Level: " + bg.level, 10, 30);
@@ -83,8 +85,7 @@ class PlayingState extends BasicGameState {
 		// tigress collision with cubs
 		if (!bg.tigress.holdingCub()) {
 			for (Cub c : bg.cubs) {
-				Collision coll = bg.tigress.collides(c);
-				if (coll != null) {
+				if (bg.tigress.collides(c) != null) {
 					bg.tigress.setRescueCub(c);
 					break;
 				}
@@ -109,6 +110,14 @@ class PlayingState extends BasicGameState {
 			lives -= 1;
 			bg.tigress.setPosition(bg.ScreenWidth - 50, bg.ScreenHeight - 50);
 			bg.poacher.setPosition(50, 50);
+		}
+		
+		// any entity collision with underbrush
+		for (Underbrush u : bg.underbrushes) {
+			Collision tigCol = bg.tigress.collides(u);
+			if (tigCol != null) {
+				
+			}
 		}
 		
 		//ResourceManager.getSound(BounceGame.HITPADDLE_RSC).play();

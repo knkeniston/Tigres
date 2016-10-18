@@ -1,9 +1,14 @@
 package Tigress;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import jig.Entity;
 import jig.ResourceManager;
+import jig.Vector;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
@@ -38,6 +43,7 @@ public class TigressGame extends StateBasedGame {
 	public static final String FLOWER_IMG_RSC = "Tigress/resources/flower.png";
 	public static final String MEAT_IMG_RSC = "Tigress/resources/meat.png";
 	public static final String UNDERBRUSH_IMG_RSC = "Tigress/resources/underbrush.png";
+	public static final String VERTEX_IMG_RSC = "Tigress/resources/vertex-r.png";
 	
 	//public static final String HITWALL_RSC = "bounce/resource/wall_hit.wav";
 
@@ -50,7 +56,8 @@ public class TigressGame extends StateBasedGame {
 	ArrayList<Cub> cubs;
 	ArrayList<Flower> flowers;
 	ArrayList<Meat> meats;	
-	ArrayList<Underbrush> underbrushes;
+	Set<Underbrush> underbrushes;
+	Set<Vertex> vertices;
 	
 	/**
 	 * Create the TigressGame frame, saving the width and height for later use.
@@ -68,7 +75,8 @@ public class TigressGame extends StateBasedGame {
 		cubs = new ArrayList<Cub>();
 		flowers = new ArrayList<Flower>();
 		meats = new ArrayList<Meat>();
-		underbrushes = new ArrayList<Underbrush>();
+		underbrushes = new HashSet<Underbrush>();
+		vertices = new HashSet<Vertex>();
 	}
 
 
@@ -99,6 +107,7 @@ public class TigressGame extends StateBasedGame {
 		ResourceManager.loadImage(FLOWER_IMG_RSC);
 		ResourceManager.loadImage(MEAT_IMG_RSC);
 		ResourceManager.loadImage(UNDERBRUSH_IMG_RSC);
+		ResourceManager.loadImage(VERTEX_IMG_RSC);
 		
 		level = 1;
 		tigress = new Tigress(ScreenWidth - 50, ScreenHeight - 50);
@@ -106,9 +115,59 @@ public class TigressGame extends StateBasedGame {
 		for (int i = 0; i < 5; i++) 
 			cubs.add(new Cub(100 + i * 100, 300));
 		flowers.add(new Flower(487, 135));
-		meats.add(new Meat(291, 529));
-		underbrushes.add(new Underbrush(ScreenWidth - 50, 50));
+		meats.add(new Meat(151, 529));
+		
+		for (int i = 0; i <= 4; i++)
+			underbrushes.add(new Underbrush(300, ScreenHeight - (i * 50)));
+		for (int i = 1; i <= 3; i++)
+			underbrushes.add(new Underbrush(300 - (i*50), ScreenHeight - (4*50)));
+		for (int i = 0; i <= 6; i++)
+			underbrushes.add(new Underbrush(600, i*50));
+		for (int i = 1; i <= 4; i++)
+			underbrushes.add(new Underbrush(600 - i * 50, 3*50));
+		for (int i = 0; i <= 4; i++)
+			underbrushes.add(new Underbrush(150, i * 50));
+		for (int i = 0; i <= 3; i++)
+			underbrushes.add(new Underbrush(450, ScreenHeight - i * 50));
+		for (int i = 1; i <= 4; i++)
+			underbrushes.add(new Underbrush(450 + i * 50, ScreenHeight - 3*50));
+		
+		Map<float[], Vertex> vertexPositions = new HashMap<float[], Vertex>();
+		
+		for (int i = 1; i < 16; i++) {
+			for (int j = 1; j < 12; j++) {
+				Vertex v = new Vertex(i * 50, j * 50);
+				
+				boolean collides = false;
+				for (Underbrush u : underbrushes) {
+					if (v.collides(u) != null)
+						collides = true;
+				}
+				if (!collides) {
+					vertices.add(v);
+					float[] pos = {i * 50, j * 50};
+					vertexPositions.put(pos, v);
+				}
+			}
+		}
+		
+		for (Vertex v : vertices) {
+			float[] left = {v.getX() - 50, v.getY()};
+			float[] right = {v.getX() + 50, v.getY()};
+			float[] above = {v.getX(), v.getY() - 50};
+			float[] below = {v.getX(), v.getY() + 50};
+			if (vertexPositions.containsKey(left))
+				v.addNeighbors(vertexPositions.get(left));
+			if (vertexPositions.containsKey(right))
+				v.addNeighbors(vertexPositions.get(right));
+			if (vertexPositions.containsKey(above))
+				v.addNeighbors(vertexPositions.get(above));
+			if (vertexPositions.containsKey(below))
+				v.addNeighbors(vertexPositions.get(below));			
+		}
 
+		level = 1;
+		
 	}
 	
 	public static void main(String[] args) {
