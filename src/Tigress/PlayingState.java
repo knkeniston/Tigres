@@ -82,8 +82,10 @@ class PlayingState extends BasicGameState {
 		keyPresses(input, bg, delta);
 		
 		bg.tigress.update(delta);
-		for (Cub c : bg.cubs) 
+		for (Cub c : bg.cubs) {
+			c.setMoving(bg);
 			c.update(delta);
+		}
 		
 		// tigress collision with cubs
 		if (!bg.tigress.holdingCub()) {
