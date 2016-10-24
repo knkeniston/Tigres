@@ -17,7 +17,7 @@ import jig.Vector;
 	private Vector velocity;
 	private int facing;
 	private String curImage;
-	private Vertex vPos;
+	protected Vertex vPos;
 
 	/**
 	 * Constructs the moving entity.

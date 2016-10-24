@@ -24,7 +24,6 @@ import jig.Vector;
 		};
 	
 	private boolean trapped;
-	private Vertex currentPos;
 	private Vertex nextPos;
 	private Vector movingDir;
 	private String direction;
@@ -35,7 +34,7 @@ import jig.Vector;
 		super(x, y, facingImages, LEFT);
 		setVelocity(new Vector(0, 0));
 		trapped = false;
-		currentPos = pos;
+		vPos = pos;
 		firstPath = true;
 		reset = false;
 	}
@@ -51,7 +50,6 @@ import jig.Vector;
 	}
 	
 	public void setMoving(TigressGame bg) {
-		if (hasPassed()) System.out.println("passed");
 		if (hasPassed() || firstPath || reset) {
 			reset = false;
 			Map<String, Integer> distances = getDistances(bg);
@@ -72,31 +70,31 @@ import jig.Vector;
 			LinkedList<Vertex> path;
 			if (!firstPath) {
 				path = search(getNextPos(), closest);
-				currentPos = nextPos;
+				vPos = nextPos;
 			} else {
-				path = search(currentPos, closest);
+				path = search(vPos, closest);
 				firstPath = false;
 			}
 			nextPos = path.get(0);
-			if (nextPos.getX() > currentPos.getX()) {
+			if (nextPos.getX() > vPos.getX()) {
 				setVelocity(new Vector(.1f, 0f));
 				direction = "right";
-			} else if (nextPos.getX() < currentPos.getX()) {
+			} else if (nextPos.getX() < vPos.getX()) {
 				setVelocity(new Vector(-.1f, 0f));
 				direction = "left";
-			} else if (nextPos.getY() > currentPos.getY()) {
+			} else if (nextPos.getY() > vPos.getY()) {
 				setVelocity(new Vector(0f, .1f));
 				direction = "below";
 			} else {
 				setVelocity(new Vector(0f, -.1f));
 				direction = "above";
 			}
-			System.out.println("path: " + path);
-			System.out.println("currentpos: " + currentPos.toString());
+			/*System.out.println("path: " + path);
+			System.out.println("currentpos: " + vPos.toString());
 			System.out.println("nextpos: " + nextPos.toString());
 			System.out.println("closest: " + closest);
 			System.out.println("direction: " + direction);
-			System.out.println("--------------------------------------------");
+			System.out.println("--------------------------------------------");*/
 		}
 	}	
 	
@@ -130,7 +128,7 @@ import jig.Vector;
 	}
 	
 	public Vertex getCurrentPos() {
-		return currentPos;
+		return vPos;
 	}
 	
 	public Vertex getNextPos() {
@@ -192,7 +190,7 @@ import jig.Vector;
 	
 	protected void setReset() {
 		reset = true;
-		currentPos = new Vertex(50, 50);
+		vPos = new Vertex(50, 50);
 	}
 	
 }
