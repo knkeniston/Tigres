@@ -1,6 +1,8 @@
 package Tigress;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import jig.Entity;
@@ -8,7 +10,9 @@ import jig.ResourceManager;
 
 public class Vertex extends Entity {
 	
-	Set<Vertex> neighbors;
+	Map<Vertex, String> neighbors;
+	private float x;
+	private float y;
 
 	/**
 	 * Constructs the moving entity.
@@ -19,13 +23,27 @@ public class Vertex extends Entity {
 	 */
 	public Vertex(final float x, final float y) {
 		super(x, y);
+		this.x = x;
+		this.y = y;
 		addImageWithBoundingBox(ResourceManager
 				.getImage(TigressGame.VERTEX_IMG_RSC));
-		neighbors = new HashSet<Vertex>();
+		neighbors = new HashMap<Vertex, String>();
 	}
 	
-	public void addNeighbors(Vertex neighbor) {
-		neighbors.add(neighbor);
+	public void addNeighbors(Vertex neighbor, String pos) {
+		neighbors.put(neighbor, pos);
+	}
+	
+	public Set<Vertex> getNeighbors() {
+		return neighbors.keySet();
+	}
+	
+	public boolean equals(Vertex other) {
+		return this.x == other.x && this.y == other.y;
+	}
+	
+	public String toString() {
+		return x + ", " + y;
 	}
 	
 }

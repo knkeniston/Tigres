@@ -2,8 +2,12 @@ package Tigress;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
 
 import jig.Collision;
 import jig.ResourceManager;
@@ -48,7 +52,7 @@ class PlayingState extends BasicGameState {
 		TigressGame bg = (TigressGame)game;
 		
 		g.drawImage(ResourceManager.getImage(TigressGame.BACKGROUND_IMG_RSC),
-				0, 0);	
+				0, 0);
 		
 		bg.tigress.render(g);
 		bg.poacher.render(g);
@@ -76,9 +80,8 @@ class PlayingState extends BasicGameState {
 		TigressGame bg = (TigressGame)game;
 		
 		keyPresses(input, bg, delta);
-	
+		
 		bg.tigress.update(delta);
-		bg.poacher.update(delta);
 		for (Cub c : bg.cubs) 
 			c.update(delta);
 		
@@ -106,10 +109,11 @@ class PlayingState extends BasicGameState {
 			}
 		}
 		
-		if (poacherTigress != null || poacherCub != null) {
+		if (poacherTigress != null) {
 			lives -= 1;
 			bg.tigress.setPosition(bg.ScreenWidth - 50, bg.ScreenHeight - 50);
 			bg.poacher.setPosition(50, 50);
+			bg.poacher.setReset();
 		}
 		
 		// any entity collision with underbrush
@@ -119,6 +123,9 @@ class PlayingState extends BasicGameState {
 				
 			}
 		}
+		
+		bg.poacher.setMoving(bg);
+		bg.poacher.update(delta);
 		
 		//ResourceManager.getSound(BounceGame.HITPADDLE_RSC).play();
 		
@@ -162,7 +169,7 @@ class PlayingState extends BasicGameState {
 			//((GameOverState)game.getState(TigressGame.GAMEOVERSTATE)).setUserScore(bounces);
 			bg.level = 1;
 			lives = 3;
-			game.enterState(TigressGame.GAMEOVERSTATE);
+			//game.enterState(TigressGame.GAMEOVERSTATE);
 		}
 	}
 
