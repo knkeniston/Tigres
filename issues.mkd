@@ -6,9 +6,10 @@
 - **[8]** Make the tigress collision with the cub working.
 - **[9]** Make collisions with poacher working.
 - **[10]** Make base class for Underbrush.
+- **[11]** Make poacher pathfinding work.
 
 ## Open Issues ##
 - **[5]** Remake the cub sprite.
 - **[6]** Make the poacher sprite.
 - **[7]** Make the map layout.
-- **[11]** Make poacher pathfinding work.
+- **[12]** Make cubs wander around.
