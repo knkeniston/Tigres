@@ -82,6 +82,7 @@ class PlayingState extends BasicGameState {
 		keyPresses(input, bg, delta);
 		
 		bg.tigress.update(delta);
+		
 		for (Cub c : bg.cubs) {
 			c.setMoving(bg);
 			c.update(delta);

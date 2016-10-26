@@ -99,4 +99,18 @@ import jig.Vector;
 		c.setPosition(getPosition().getX() + xOffset, getPosition().getY() + yOffset);
 	}
 	
+	public void setVertex() {
+		int xRemain = (int)getX() % 50;
+		int yRemain = (int)getY() % 50;
+		int xDiff = xRemain > 25 ? 50 - xRemain : -1 * xRemain;
+		int yDiff = yRemain > 25 ? 50 - yRemain : -1 * yRemain;
+		setvPos((int)getX() + xDiff, (int)getY() + yDiff);
+	}
+	
+	@Override
+	public void update(int delta) {
+		setVertex();
+		super.update(delta);
+	}
+	
 }

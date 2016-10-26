@@ -111,6 +111,10 @@ import jig.Vector;
 	public Vertex getVertex() {
 		return vPos;
 	}
+	
+	public void setvPos(int x, int y) {
+		vPos = new Vertex(x, y);
+	}
 
 	/**
 	 * Update the MovingEntity's velocity and translates it.
