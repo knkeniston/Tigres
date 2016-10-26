@@ -1,13 +1,9 @@
 package Tigress;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
-
-import jig.Entity;
-import jig.ResourceManager;
 import jig.Vector;
 
  class Poacher extends MovingEntity {
@@ -17,100 +13,57 @@ import jig.Vector;
 			TigressGame.POACHER_LEFTIMG_RSC,
 			TigressGame.POACHER_LEFTIMG_RSC,
 			TigressGame.POACHER_LEFTIMG_RSC,
-			TigressGame.POACHER_LEFTIMG_RSC/*,
-			TigressGame.TIGRESS_RIGHTIMG_RSC,
-			TigressGame.TIGRESS_FRONTIMG_RSC,
-			TigressGame.TIGRESS_BACKIMG_RSC*/
+			TigressGame.POACHER_LEFTIMG_RSC
 		};
 	
 	private boolean trapped;
-	private Vertex nextPos;
-	private Vector movingDir;
-	private String direction;
-	private boolean firstPath;
 	private boolean reset;
 
 	public Poacher(final float x, final float y, Vertex pos) { 
 		super(x, y, facingImages, LEFT);
 		setVelocity(new Vector(0, 0));
 		trapped = false;
-		vPos = pos;
-		firstPath = true;
+		setvPos(pos);
+		setFirstPath(true);
 		reset = false;
 	}
 	
-	private void nearestTiger(ArrayList<Cub> cubs, Tigress tigress, ArrayList<Vertex> vertices) {
-		Map<Vector, Entity> m = new HashMap<Vector, Entity>();
-		m.put(tigress.getPosition(), tigress);
-		for (Cub c : cubs)
-			m.put(c.getPosition(), c);
-		for (Vector pos : m.keySet()) {
-			
-		}
-	}
-	
 	public void setMoving(TigressGame bg) {
-		if (hasPassed() || firstPath || reset) {
+		if (hasPassed() || getFirstPath() || reset) {
 			reset = false;
 			Map<String, Integer> distances = getDistances(bg);
 			int minDist = Integer.MAX_VALUE;
 			Vertex closest = null;
 			for (Cub c : bg.cubs) {
-				Vertex pos = c.getVertex();
+				Vertex pos = c.getvPos();
 				if (distances.get(pos.toString()) < minDist) {
 					minDist = distances.get(pos.toString());
 					closest = pos;
 				}
 			}
-			if (distances.get(bg.tigress.getVertex().toString()) < minDist) {
-				minDist = distances.get(bg.tigress.getVertex().toString());
-				closest = bg.tigress.getVertex();
+			if (distances.get(bg.tigress.getvPos().toString()) < minDist) {
+				minDist = distances.get(bg.tigress.getvPos().toString());
+				closest = bg.tigress.getvPos();
 			}
 			
 			LinkedList<Vertex> path;
-			if (!firstPath) {
+			if (!getFirstPath()) {
 				path = search(getNextPos(), closest);
-				vPos = nextPos;
+				setvPos(getNextPos());
 			} else {
-				path = search(vPos, closest);
-				firstPath = false;
+				path = search(getvPos(), closest);
+				setFirstPath(false);
 			}
-			nextPos = path.get(0);
-			if (nextPos.getX() > vPos.getX()) {
-				setVelocity(new Vector(.1f, 0f));
-				direction = "right";
-			} else if (nextPos.getX() < vPos.getX()) {
-				setVelocity(new Vector(-.1f, 0f));
-				direction = "left";
-			} else if (nextPos.getY() > vPos.getY()) {
-				setVelocity(new Vector(0f, .1f));
-				direction = "below";
-			} else {
-				setVelocity(new Vector(0f, -.1f));
-				direction = "above";
-			}
-			/*System.out.println("path: " + path);
-			System.out.println("currentpos: " + vPos.toString());
-			System.out.println("nextpos: " + nextPos.toString());
+			setNextPos(path.get(0));
+			setDirAndVel();
+			System.out.println("path: " + path);
+			System.out.println("currentpos: " + getvPos().toString());
+			System.out.println("nextpos: " + getNextPos().toString());
 			System.out.println("closest: " + closest);
-			System.out.println("direction: " + direction);
-			System.out.println("--------------------------------------------");*/
+			System.out.println("direction: " + getDirection());
+			System.out.println("--------------------------------------------");
 		}
 	}	
-	
-	private boolean hasPassed() {
-		if (direction != null && nextPos != null) {
-			if (direction.equals("left"))
-				return getPosition().getX() <= nextPos.getX();
-			else if (direction.equals("right"))
-				return getPosition().getX() >= nextPos.getX();
-			else if (direction.equals("above"))
-				return getPosition().getY() <= nextPos.getY();
-			else
-				return getPosition().getY() >= nextPos.getY();
-		}
-		return false;
-	}
 	
 	/**
 	 * Set whether the poacher is trapped in a vine or not.
@@ -127,19 +80,11 @@ import jig.Vector;
 		return trapped;
 	}
 	
-	public Vertex getCurrentPos() {
-		return vPos;
-	}
-	
-	public Vertex getNextPos() {
-		return nextPos;
-	}
-	
 	private Map<String, Integer> getDistances(TigressGame bg) {
 		Queue<Vertex> frontier = new LinkedList<Vertex>();
-		frontier.add(bg.poacher.getCurrentPos());
+		frontier.add(bg.poacher.getvPos());
 		Map<String, Integer> distance = new HashMap<String, Integer>();
-		distance.put(bg.poacher.getCurrentPos().toString(), 0);
+		distance.put(bg.poacher.getvPos().toString(), 0);
 		
 		while (!frontier.isEmpty()) {
 			Vertex cur = frontier.poll();
@@ -190,7 +135,7 @@ import jig.Vector;
 	
 	protected void setReset() {
 		reset = true;
-		vPos = new Vertex(50, 50);
+		setvPos(new Vertex(50, 50));
 	}
 	
 }

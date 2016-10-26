@@ -1,10 +1,6 @@
 package Tigress;
 
-import java.util.LinkedList;
-import java.util.Map;
 import java.util.Random;
-
-import jig.Entity;
 import jig.ResourceManager;
 import jig.Vector;
 
@@ -20,10 +16,6 @@ import jig.Vector;
 	
 	private boolean held;
 	private boolean inNest;
-	private Vertex nextPos;
-	private Vector movingDir;
-	private String direction;
-	private boolean firstPath;
 	private int waitTime;
 	Random rand = new Random();
 
@@ -32,7 +24,7 @@ import jig.Vector;
 		setVelocity(new Vector(0, 0));
 		held = false; 
 		inNest = false;
-		firstPath = true;
+		setFirstPath(true);
 		waitTime = rand.nextInt(200);
 	}
 	
@@ -60,55 +52,25 @@ import jig.Vector;
 	}
 	
 	public void setMoving(TigressGame bg) {
-		if ((hasPassed() || firstPath) && waitTime <= 0) {
-			if (firstPath)
-				firstPath = false;
+		if ((hasPassed() || getFirstPath()) && waitTime <= 0) {
+			if (getFirstPath())
+				setFirstPath(false);
 			//nextPos = path.get(0);
-			Vertex v = bg.vPos.get(vPos.toString());
+			Vertex v = bg.vPos.get(getvPos().toString());
 			int r = rand.nextInt(v.neighbors.size());
 			int c = 0;
 			for (Vertex n : v.getNeighbors()) {
-				if (c == r) nextPos = n;
+				if (c == r) setNextPos(n);
 				c++;
 			}
-			if (nextPos.getX() > vPos.getX()) {
-				setVelocity(new Vector(.07f, 0f));
-				direction = "right";
-			} else if (nextPos.getX() < vPos.getX()) {
-				setVelocity(new Vector(-.07f, 0f));
-				direction = "left";
-			} else if (nextPos.getY() > vPos.getY()) {
-				setVelocity(new Vector(0f, .07f));
-				direction = "below";
-			} else {
-				setVelocity(new Vector(0f, -.07f));
-				direction = "above";
-			}
-			System.out.println("currentpos: " + vPos.toString());
-			System.out.println("nextpos: " + nextPos.toString());
-			System.out.println("direction: " + direction);
-			System.out.println("--------------------------------------------");
+			setDirAndVel();
 			waitTime = rand.nextInt(200);
 		}
 		if (hasPassed()) {
 			setVelocity(new Vector(0f, 0f));
-			vPos = nextPos;
+			setvPos(getNextPos());
 		}
 		if (waitTime > 0)
 			waitTime--;
 	}	
-	
-	private boolean hasPassed() {
-		if (direction != null && nextPos != null) {
-			if (direction.equals("left"))
-				return getPosition().getX() <= nextPos.getX();
-			else if (direction.equals("right"))
-				return getPosition().getX() >= nextPos.getX();
-			else if (direction.equals("above"))
-				return getPosition().getY() <= nextPos.getY();
-			else
-				return getPosition().getY() >= nextPos.getY();
-		}
-		return false;
-	}
 }

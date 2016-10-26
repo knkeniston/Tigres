@@ -30,6 +30,7 @@ import jig.Vector;
 	public Tigress(final float x, final float y) {
 		super(x, y, facingImages, LEFT);
 		setVelocity(new Vector(0, 0));
+		setFirstPath(true);
 		flowered = false;
 		eaten = false;
 		powerTime = 0;
@@ -99,4 +100,30 @@ import jig.Vector;
 		c.setPosition(getPosition().getX() + xOffset, getPosition().getY() + yOffset);
 	}
 	
+	public void setMoving(TigressGame bg, String dir) {
+		if (hasPassed() || getFirstPath() ) {
+			setFirstPath(false);
+			Vertex n = null;
+			if (dir.equals("above")) {
+				n = new Vertex(getvPos().getX(), getvPos().getY() - 50);
+
+			} else if (dir.equals("below")) {
+				n = new Vertex(getvPos().getX(), getvPos().getY() + 50);
+				
+			} else if (dir.equals("left")) {
+				n = new Vertex(getvPos().getX() - 50, getvPos().getY());
+				
+			} else if (dir.equals("right")) { 
+				n = new Vertex(getvPos().getX() + 50, getvPos().getY());
+			}
+			if (bg.vPos.containsKey(n.toString())) {
+				setNextPos(n);
+				setDirAndVel();
+			}
+		}
+		if (hasPassed()) {
+			setVelocity(new Vector(0f, 0f));
+			//setvPos(getNextPos());
+		}
+	}	
 }

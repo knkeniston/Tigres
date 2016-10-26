@@ -126,8 +126,8 @@ class PlayingState extends BasicGameState {
 			}
 		}
 		
-		bg.poacher.setMoving(bg);
-		bg.poacher.update(delta);
+		//bg.poacher.setMoving(bg);
+		//bg.poacher.update(delta);
 		
 		//ResourceManager.getSound(BounceGame.HITPADDLE_RSC).play();
 		
@@ -149,15 +149,19 @@ class PlayingState extends BasicGameState {
 	private void keyPresses(Input input, TigressGame bg, int delta) {		
 		// Control user input
 		if (input.isKeyDown(Input.KEY_LEFT)) 
-			bg.tigress.setVelocity(new Vector(-.3f, 0));
+			bg.tigress.setMoving(bg, "left");
+			//bg.tigress.setVelocity(new Vector(-.3f, 0));
 		else if (input.isKeyDown(Input.KEY_RIGHT)) 
-			bg.tigress.setVelocity(new Vector(.3f, 0f));
+			bg.tigress.setMoving(bg, "right");
+			//bg.tigress.setVelocity(new Vector(.3f, 0f));
 		else if (input.isKeyDown(Input.KEY_UP)) 
-			bg.tigress.setVelocity(new Vector(0f, -.3f));
+			bg.tigress.setMoving(bg, "above");
+			//bg.tigress.setVelocity(new Vector(0f, -.3f));
 		else if (input.isKeyDown(Input.KEY_DOWN)) 
-			bg.tigress.setVelocity(new Vector(0f, .3f));
-		else 
-			bg.tigress.setVelocity(new Vector(0f, 0f));
+			bg.tigress.setMoving(bg, "below");
+			//bg.tigress.setVelocity(new Vector(0f, .3f));
+		//else 
+			//bg.tigress.setVelocity(new Vector(0f, 0f));
 		
 		// if space pressed, tigress drops cub
 		if (input.isKeyDown(Input.KEY_SPACE) && bg.tigress.holdingCub()) 

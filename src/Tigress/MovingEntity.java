@@ -17,7 +17,10 @@ import jig.Vector;
 	private Vector velocity;
 	private int facing;
 	private String curImage;
-	protected Vertex vPos;
+	private Vertex vPos;
+	private Vertex nextPos;
+	private String direction;
+	private boolean firstPath;
 
 	/**
 	 * Constructs the moving entity.
@@ -108,8 +111,12 @@ import jig.Vector;
 		return facing;
 	}
 	
-	public Vertex getVertex() {
+	public Vertex getvPos() {
 		return vPos;
+	}
+	
+	public void setvPos(Vertex v) {
+		vPos = v;
 	}
 
 	/**
@@ -118,5 +125,61 @@ import jig.Vector;
 	 */
 	public void update(final int delta) {
 		translate(velocity.scale(delta));
+	}
+	
+	public Vertex getNextPos() {
+		return nextPos;
+	}
+	
+	public void setNextPos(Vertex v) {
+		nextPos = v;
+	}
+	
+	public void setDirection(String d) {
+		direction = d;
+	}
+	
+	public String getDirection() {
+		return direction;
+	}
+	
+	public boolean getFirstPath() {
+		return firstPath;
+	}
+	
+	public void setFirstPath(boolean val) {
+		firstPath = val;
+	}
+	
+	public void setDirAndVel() {
+		if (getNextPos().getX() > getvPos().getX()) {
+			setVelocity(new Vector(.1f, 0f));
+			setDirection("right");
+		} else if (getNextPos().getX() < getvPos().getX()) {
+			setVelocity(new Vector(-.1f, 0f));
+			setDirection("left");
+		} else if (getNextPos().getY() > getvPos().getY()) {
+			setVelocity(new Vector(0f, .1f));
+			setDirection("below");
+		} else {
+			setVelocity(new Vector(0f, -.1f));
+			setDirection("above");
+		}
+	}
+	
+	protected boolean hasPassed() {
+		if (nextPos == null)
+			return true;
+		if (direction != null && nextPos != null) {
+			if (direction.equals("left"))
+				return getPosition().getX() <= nextPos.getX();
+			else if (direction.equals("right"))
+				return getPosition().getX() >= nextPos.getX();
+			else if (direction.equals("above"))
+				return getPosition().getY() <= nextPos.getY();
+			else if (direction.equals("below"))
+				return getPosition().getY() >= nextPos.getY();
+		}
+		return false;
 	}
 }
