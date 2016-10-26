@@ -56,13 +56,20 @@ import jig.Vector;
 			int minDist = Integer.MAX_VALUE;
 			Vertex closest = null;
 			for (Cub c : bg.cubs) {
-				Vertex pos = c.getVertex();
-				if (distances.get(pos.toString()) < minDist) {
-					minDist = distances.get(pos.toString());
-					closest = pos;
+				if (!c.isHeld()) {
+					Vertex pos = c.getVertex();
+					if (pos != null && bg.vPos.containsKey(pos.toString()) &&
+							distances.get(pos.toString()) != null &&
+							distances.get(pos.toString()) < minDist) {
+						minDist = distances.get(pos.toString());
+						closest = pos;
+					}
 				}
 			}
-			if (distances.get(bg.tigress.getVertex().toString()) < minDist) {
+			if (bg.tigress.getVertex() != null && 
+					bg.vPos.containsKey(bg.tigress.getVertex()) &&
+					distances.get(bg.tigress.getVertex().toString()) != null &&
+					distances.get(bg.tigress.getVertex().toString()) < minDist) {
 				minDist = distances.get(bg.tigress.getVertex().toString());
 				closest = bg.tigress.getVertex();
 			}
@@ -162,6 +169,11 @@ import jig.Vector;
  
 		while (!openList.isEmpty()) {
 			Vertex v = openList.removeFirst();
+			if (v == null) {
+				System.out.println("v null");
+			} else if (goal == null){
+				System.out.println("goal null");
+			}
 			if (v.toString().equals(goal.toString())) {
 				return constructPath(goal, parents);
 			} else {

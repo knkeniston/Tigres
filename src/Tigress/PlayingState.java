@@ -54,6 +54,10 @@ class PlayingState extends BasicGameState {
 		g.drawImage(ResourceManager.getImage(TigressGame.BACKGROUND_IMG_RSC),
 				0, 0);
 		
+		for (Underbrush u : bg.underbrushes)
+			u.render(g);
+		for (Vertex v : bg.vertices)
+			v.render(g);
 		bg.tigress.render(g);
 		bg.poacher.render(g);
 		for (Cub c : bg.cubs) 
@@ -62,10 +66,6 @@ class PlayingState extends BasicGameState {
 			f.render(g);
 		for (Meat m : bg.meats) 
 			m.render(g);
-		for (Underbrush u : bg.underbrushes)
-			u.render(g);
-		for (Vertex v : bg.vertices)
-			v.render(g);
 		
 		g.drawString("Lives: " + lives, 10, 50);
 		g.drawString("Level: " + bg.level, 10, 30);
@@ -82,6 +82,7 @@ class PlayingState extends BasicGameState {
 		keyPresses(input, bg, delta);
 		
 		bg.tigress.update(delta);
+		bg.tigress.setVertex(bg);
 		
 		for (Cub c : bg.cubs) {
 			c.setMoving(bg);

@@ -51,6 +51,10 @@ import jig.Vector;
 		held = val;
 	}
 	
+	public boolean isHeld() {
+		return held;
+	}
+	
 	/**
 	 * Sets whether the cub is in the nest or not.
 	 * @param val: true if in nest, false if not
@@ -84,10 +88,10 @@ import jig.Vector;
 				setVelocity(new Vector(0f, -.07f));
 				direction = "above";
 			}
-			System.out.println("currentpos: " + vPos.toString());
+			/*System.out.println("currentpos: " + vPos.toString());
 			System.out.println("nextpos: " + nextPos.toString());
 			System.out.println("direction: " + direction);
-			System.out.println("--------------------------------------------");
+			System.out.println("--------------------------------------------");*/
 			waitTime = rand.nextInt(200);
 		}
 		if (hasPassed()) {
