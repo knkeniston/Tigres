@@ -83,8 +83,8 @@ class PlayingState extends BasicGameState {
 		
 		bg.tigress.update(delta);
 		for (Cub c : bg.cubs) {
-			c.setMoving(bg);
-			c.update(delta);
+			//c.setMoving(bg);
+			//c.update(delta);
 		}
 		
 		// tigress collision with cubs
@@ -148,20 +148,23 @@ class PlayingState extends BasicGameState {
 	
 	private void keyPresses(Input input, TigressGame bg, int delta) {		
 		// Control user input
-		if (input.isKeyDown(Input.KEY_LEFT)) 
-			bg.tigress.setMoving(bg, "left");
-			//bg.tigress.setVelocity(new Vector(-.3f, 0));
-		else if (input.isKeyDown(Input.KEY_RIGHT)) 
-			bg.tigress.setMoving(bg, "right");
-			//bg.tigress.setVelocity(new Vector(.3f, 0f));
-		else if (input.isKeyDown(Input.KEY_UP)) 
-			bg.tigress.setMoving(bg, "above");
-			//bg.tigress.setVelocity(new Vector(0f, -.3f));
-		else if (input.isKeyDown(Input.KEY_DOWN)) 
-			bg.tigress.setMoving(bg, "below");
-			//bg.tigress.setVelocity(new Vector(0f, .3f));
-		//else 
-			//bg.tigress.setVelocity(new Vector(0f, 0f));
+		if (bg.tigress.hasPassed()) {
+			if (input.isKeyDown(Input.KEY_LEFT)) 
+				bg.tigress.setMoving(bg, "left");
+				//bg.tigress.setVelocity(new Vector(-.3f, 0));
+			else if (input.isKeyDown(Input.KEY_RIGHT)) 
+				bg.tigress.setMoving(bg, "right");
+				//bg.tigress.setVelocity(new Vector(.3f, 0f));
+			else if (input.isKeyDown(Input.KEY_UP)) 
+				bg.tigress.setMoving(bg, "above");
+				//bg.tigress.setVelocity(new Vector(0f, -.3f));
+			else if (input.isKeyDown(Input.KEY_DOWN)) 
+				bg.tigress.setMoving(bg, "below");
+				//bg.tigress.setVelocity(new Vector(0f, .3f));
+			else 
+				bg.tigress.setMoving(bg, "none");
+				//bg.tigress.setVelocity(new Vector(0f, 0f));
+		}
 		
 		// if space pressed, tigress drops cub
 		if (input.isKeyDown(Input.KEY_SPACE) && bg.tigress.holdingCub()) 

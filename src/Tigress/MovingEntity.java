@@ -152,18 +152,23 @@ import jig.Vector;
 	}
 	
 	public void setDirAndVel() {
-		if (getNextPos().getX() > getvPos().getX()) {
-			setVelocity(new Vector(.1f, 0f));
-			setDirection("right");
-		} else if (getNextPos().getX() < getvPos().getX()) {
-			setVelocity(new Vector(-.1f, 0f));
-			setDirection("left");
-		} else if (getNextPos().getY() > getvPos().getY()) {
-			setVelocity(new Vector(0f, .1f));
-			setDirection("below");
+		if (getNextPos() != null) {
+			if (getNextPos().getX() > getvPos().getX()) {
+				setVelocity(new Vector(.1f, 0f));
+				setDirection("right");
+			} else if (getNextPos().getX() < getvPos().getX()) {
+				setVelocity(new Vector(-.1f, 0f));
+				setDirection("left");
+			} else if (getNextPos().getY() > getvPos().getY()) {
+				setVelocity(new Vector(0f, .1f));
+				setDirection("below");
+			} else if (getNextPos().getY() < getvPos().getY()){
+				setVelocity(new Vector(0f, -.1f));
+				setDirection("above");
+			}
 		} else {
-			setVelocity(new Vector(0f, -.1f));
-			setDirection("above");
+			setVelocity(new Vector(0f, 0f));
+			setDirection("none");
 		}
 	}
 	

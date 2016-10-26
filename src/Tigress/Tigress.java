@@ -101,29 +101,25 @@ import jig.Vector;
 	}
 	
 	public void setMoving(TigressGame bg, String dir) {
-		if (hasPassed() || getFirstPath() ) {
-			setFirstPath(false);
-			Vertex n = null;
-			if (dir.equals("above")) {
-				n = new Vertex(getvPos().getX(), getvPos().getY() - 50);
-
-			} else if (dir.equals("below")) {
-				n = new Vertex(getvPos().getX(), getvPos().getY() + 50);
-				
-			} else if (dir.equals("left")) {
-				n = new Vertex(getvPos().getX() - 50, getvPos().getY());
-				
-			} else if (dir.equals("right")) { 
-				n = new Vertex(getvPos().getX() + 50, getvPos().getY());
-			}
-			if (bg.vPos.containsKey(n.toString())) {
-				setNextPos(n);
-				setDirAndVel();
-			}
+		Vertex n = null;
+		if (dir.equals("above")) {
+			n = new Vertex(getvPos().getX(), getvPos().getY() - 50);
+		} else if (dir.equals("below")) {
+			n = new Vertex(getvPos().getX(), getvPos().getY() + 50);
+			
+		} else if (dir.equals("left")) {
+			n = new Vertex(getvPos().getX() - 50, getvPos().getY());
+			
+		} else if (dir.equals("right")) { 
+			n = new Vertex(getvPos().getX() + 50, getvPos().getY());
 		}
-		if (hasPassed()) {
-			setVelocity(new Vector(0f, 0f));
-			//setvPos(getNextPos());
-		}
+		if (getNextPos() != null)
+			setvPos(getNextPos());
+		if (n != null && bg.vPos.containsKey(n.toString()))
+			setNextPos(n);
+		else 
+			setNextPos(null);
+		setDirAndVel();
+		setFirstPath(false);
 	}	
 }
