@@ -20,8 +20,6 @@ import org.newdawn.slick.state.StateBasedGame;
  * Transitions To PlayingState
  */
 class StartUpState extends BasicGameState {
-	int timeX;
-	int timeY;
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -31,8 +29,6 @@ class StartUpState extends BasicGameState {
 	@Override
 	public void enter(GameContainer container, StateBasedGame game) {
 		container.setSoundOn(false);
-		timeX = 0;
-		timeY = 0;
 	}
 
 
@@ -44,19 +40,10 @@ class StartUpState extends BasicGameState {
 		g.drawImage(ResourceManager.getImage(TigressGame.BACKGROUND_IMG_RSC),
 				0, 0);	
 		
-		/*bg.ball.render(g);
-		for (Bang b : bg.explosions)
-			b.render(g);*/
-		/*if (bg.level == 1) {
-			g.drawImage(ResourceManager.getImage(BounceGame.SPLASH_BANNER_RSC),
-					100, 100);	
-		} else if (bg.level == 2) {
-			g.drawImage(ResourceManager.getImage(BounceGame.STARTUP_2_BANNER_RSC),
-					150, 150);	
-		} else {
-			g.drawImage(ResourceManager.getImage(BounceGame.STARTUP_3_BANNER_RSC),
-					150, 150);
-		}*/
+		if (bg.level == 1) {
+			g.drawImage(ResourceManager.getImage(TigressGame.STARTUP_IMG_RSC),
+					0, 0);	
+		}
 		
 	}
 
