@@ -79,10 +79,17 @@ class PlayingState extends BasicGameState {
 		Input input = container.getInput();
 		TigressGame bg = (TigressGame)game;
 		
-		keyPresses(input, bg, delta);
+		// tigress collision with cubs
+		Vector move = null;
+		for (Underbrush u : bg.underbrushes) {
+			Collision c = bg.tigress.collides(u);
+			if (bg.tigress.collides(u) != null) {
+				move = c.getMinPenetration();
+				break;
+			}
+		}
 		
-		bg.tigress.update(delta);
-		bg.tigress.setVertex(bg);
+		keyPresses(input, bg, delta, move);
 		
 		for (Cub c : bg.cubs) {
 			c.setMoving(bg);
@@ -104,7 +111,7 @@ class PlayingState extends BasicGameState {
 		Collision poacherCub = null;
 		for (Cub c : bg.cubs) {
 			Collision coll = bg.poacher.collides(c);
-			if (coll != null) {
+			if (coll != null && !c.isHeld()) {
 				bg.tigress.setRescueCub(null);
 				c.removeImage(ResourceManager.getImage(c.getCurImage()));
 				bg.cubs.remove(c);
@@ -116,18 +123,13 @@ class PlayingState extends BasicGameState {
 		if (poacherTigress != null) {
 			lives -= 1;
 			bg.tigress.setPosition(bg.ScreenWidth - 50, bg.ScreenHeight - 50);
+			bg.tigress.setvPos(bg.ScreenWidth - 50, bg.ScreenHeight - 50);
 			bg.poacher.setPosition(50, 50);
-			bg.poacher.setReset();
+			bg.poacher.setReset(bg);
 		}
 		
-		// any entity collision with underbrush
-		for (Underbrush u : bg.underbrushes) {
-			Collision tigCol = bg.tigress.collides(u);
-			if (tigCol != null) {
-				
-			}
-		}
-		
+		bg.tigress.update(delta);
+		bg.tigress.setVertex(bg);
 		bg.poacher.setMoving(bg);
 		bg.poacher.update(delta);
 		
@@ -148,22 +150,22 @@ class PlayingState extends BasicGameState {
 		
 	}
 	
-	private void keyPresses(Input input, TigressGame bg, int delta) {		
+	private void keyPresses(Input input, TigressGame bg, int delta, Vector move) {		
 		// Control user input
-		if (input.isKeyDown(Input.KEY_LEFT)) 
+		if (input.isKeyDown(Input.KEY_LEFT) && (move == null || move.getX() <= 0)) 
 			bg.tigress.setVelocity(new Vector(-.3f, 0));
-		else if (input.isKeyDown(Input.KEY_RIGHT)) 
+		else if (input.isKeyDown(Input.KEY_RIGHT) && (move == null || move.getX() >= 0)) 
 			bg.tigress.setVelocity(new Vector(.3f, 0f));
-		else if (input.isKeyDown(Input.KEY_UP)) 
+		else if (input.isKeyDown(Input.KEY_UP) && (move == null || move.getY() <= 0)) 
 			bg.tigress.setVelocity(new Vector(0f, -.3f));
-		else if (input.isKeyDown(Input.KEY_DOWN)) 
+		else if (input.isKeyDown(Input.KEY_DOWN) && (move == null || move.getY() >= 0)) 
 			bg.tigress.setVelocity(new Vector(0f, .3f));
 		else 
 			bg.tigress.setVelocity(new Vector(0f, 0f));
 		
 		// if space pressed, tigress drops cub
-		if (input.isKeyDown(Input.KEY_SPACE) && bg.tigress.holdingCub()) 
-			bg.tigress.dropCub();
+		/*if (input.isKeyDown(Input.KEY_SPACE) && bg.tigress.holdingCub()) 
+			bg.tigress.dropCub();*/
 		
 	}
 	

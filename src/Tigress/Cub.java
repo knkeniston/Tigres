@@ -47,6 +47,8 @@ import jig.Vector;
 			removeImage(ResourceManager.getImage(getCurImage()));
 			setCurImage(null);
 			setFacing(-1);
+			setvPos(-1, -1);
+			setVelocity(new Vector(0f, 0f));
 		}
 		held = val;
 	}
@@ -64,7 +66,7 @@ import jig.Vector;
 	}
 	
 	public void setMoving(TigressGame bg) {
-		if ((hasPassed() || firstPath) && waitTime <= 0) {
+		if ((hasPassed() || firstPath) && waitTime <= 0 && !isHeld()) {
 			if (firstPath)
 				firstPath = false;
 			//nextPos = path.get(0);
