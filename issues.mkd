@@ -9,9 +9,10 @@
 - **[11]** Make poacher pathfinding work.
 - **[12]** Make cubs wander around.
 - **[13]** Fix poacher pathfinding after tigress moves.
+- **[14]** Debug poacher's pathfinding crashing when vertices aren't quite set.
 
 ## Open Issues ##
 - **[5]** Remake the cub sprite.
 - **[6]** Make the poacher sprite.
 - **[7]** Make the map layout.
-- **[14]** Debug poacher's pathfinding crashing when vertices aren't quite set.
+- **[15]** Make the nest functional.
