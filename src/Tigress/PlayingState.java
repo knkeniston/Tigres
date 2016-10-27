@@ -1,14 +1,5 @@
 package Tigress;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
-
 import jig.Collision;
 import jig.ResourceManager;
 import jig.Vector;
@@ -21,7 +12,6 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.EmptyTransition;
 import org.newdawn.slick.state.transition.HorizontalSplitTransition;
-
 
 /**
  * This state is active when the Game is being played. In this state, sound is
@@ -44,6 +34,11 @@ class PlayingState extends BasicGameState {
 	public void enter(GameContainer container, StateBasedGame game) {
 		container.setSoundOn(true);
 		TigressGame bg = (TigressGame)game;
+		
+		if (bg.level == 2)
+			bg.level2Setup();
+		else if (bg.level == 3)
+			bg.level3Setup();
 	}
 	
 	@Override
@@ -56,6 +51,7 @@ class PlayingState extends BasicGameState {
 		
 		for (Underbrush u : bg.underbrushes)
 			u.render(g);
+		bg.nest.render(g);
 		for (Vertex v : bg.vertices)
 			v.render(g);
 		bg.tigress.render(g);
@@ -89,6 +85,15 @@ class PlayingState extends BasicGameState {
 			}
 		}
 		
+		Collision tigressNest = bg.tigress.collides(bg.nest);
+		if (tigressNest != null) {
+			if (bg.tigress.holdingCub()) {
+				bg.cubs.remove(bg.tigress.getRescueCub());
+				bg.tigress.setRescueCub(null);
+			}
+			move = tigressNest.getMinPenetration();
+		}
+		
 		keyPresses(input, bg, delta, move);
 		
 		for (Cub c : bg.cubs) {
@@ -116,6 +121,7 @@ class PlayingState extends BasicGameState {
 				c.removeImage(ResourceManager.getImage(c.getCurImage()));
 				bg.cubs.remove(c);
 				poacherCub = coll;
+				lives -= 1;
 				break;
 			}
 		}
@@ -136,15 +142,14 @@ class PlayingState extends BasicGameState {
 		//ResourceManager.getSound(BounceGame.HITPADDLE_RSC).play();
 		
 		// Change levels
-		/*if (bg.bricks.size() == 0) {
+		if (bg.cubs.size() == 0) {
 			bg.level++;
 			if (bg.level == 4) {
-				game.enterState(BounceGame.GAMEOVERSTATE, new EmptyTransition(), new HorizontalSplitTransition());
+				game.enterState(TigressGame.GAMEOVERSTATE, new EmptyTransition(), new HorizontalSplitTransition());
 			} else {
-				game.enterState(BounceGame.STARTUPSTATE, new EmptyTransition(), new HorizontalSplitTransition());
+				game.enterState(TigressGame.STARTUPSTATE, new EmptyTransition(), new HorizontalSplitTransition());
 			}
 		}
-		*/
 
 		checkLives(game, bg);
 		
@@ -175,7 +180,7 @@ class PlayingState extends BasicGameState {
 			//((GameOverState)game.getState(TigressGame.GAMEOVERSTATE)).setUserScore(bounces);
 			bg.level = 1;
 			lives = 3;
-			//game.enterState(TigressGame.GAMEOVERSTATE);
+			game.enterState(TigressGame.GAMEOVERSTATE);
 		}
 	}
 

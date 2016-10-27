@@ -24,6 +24,7 @@ public class TigressGame extends StateBasedGame {
 	
 	// background
 	public static final String BACKGROUND_IMG_RSC = "Tigress/resources/background.png";
+	public static final String STARTUP_IMG_RSC = "Tigress/resources/startup.png";
 	
 	// all entity images used in game
 	public static final String TIGRESS_LEFTIMG_RSC = "Tigress/resources/tigress-left.png";
@@ -43,6 +44,7 @@ public class TigressGame extends StateBasedGame {
 	public static final String FLOWER_IMG_RSC = "Tigress/resources/flower.png";
 	public static final String MEAT_IMG_RSC = "Tigress/resources/meat.png";
 	public static final String UNDERBRUSH_IMG_RSC = "Tigress/resources/underbrush.png";
+	public static final String NEST_IMG_RSC = "Tigress/resources/nest.png";
 	public static final String VERTEX_IMG_RSC = "Tigress/resources/vertex-r.png";
 	
 	//public static final String HITWALL_RSC = "bounce/resource/wall_hit.wav";
@@ -59,6 +61,7 @@ public class TigressGame extends StateBasedGame {
 	Set<Underbrush> underbrushes;
 	Set<Vertex> vertices;
 	Map<String, Vertex> vPos;
+	Nest nest;
 	
 	/**
 	 * Create the TigressGame frame, saving the width and height for later use.
@@ -91,33 +94,11 @@ public class TigressGame extends StateBasedGame {
 		
 		level = 1;
 		
-		// create all underbrush
-		for (int i = 0; i <= 4; i++)
-			underbrushes.add(new Underbrush(300, ScreenHeight - (i * 50)));
-		for (int i = 1; i <= 3; i++)
-			underbrushes.add(new Underbrush(300 - (i*50), ScreenHeight - (4*50)));
-		for (int i = 0; i <= 6; i++)
-			underbrushes.add(new Underbrush(600, i*50));
-		for (int i = 1; i <= 4; i++)
-			underbrushes.add(new Underbrush(600 - i * 50, 3*50));
-		for (int i = 0; i <= 4; i++)
-			underbrushes.add(new Underbrush(150, i * 50));
-		for (int i = 0; i <= 3; i++)
-			underbrushes.add(new Underbrush(450, ScreenHeight - i * 50));
-		for (int i = 1; i <= 4; i++)
-			underbrushes.add(new Underbrush(450 + i * 50, ScreenHeight - 3*50));
-		
-		createVertices();
+		level1Setup();
 		
 		tigress = new Tigress(ScreenWidth - 50, ScreenHeight - 50);
 		poacher = new Poacher(50, 50, vPos.get(new Vertex(50, 50).toString()));
-
-		cubs.add(new Cub(50, 550));
-		cubs.add(new Cub(400, 50));
-		cubs.add(new Cub(250, 300));
-		
-		flowers.add(new Flower(487, 135));
-		meats.add(new Meat(151, 529));
+		nest = new Nest(ScreenWidth - 85, 60);
 		
 	}
 	
@@ -125,6 +106,7 @@ public class TigressGame extends StateBasedGame {
 		//ResourceManager.loadSound(HITWALL_RSC);	
 		
 		ResourceManager.loadImage(BACKGROUND_IMG_RSC);
+		ResourceManager.loadImage(STARTUP_IMG_RSC);
 		
 		ResourceManager.loadImage(TIGRESS_LEFTIMG_RSC);
 		ResourceManager.loadImage(TIGRESS_RIGHTIMG_RSC);
@@ -143,10 +125,14 @@ public class TigressGame extends StateBasedGame {
 		ResourceManager.loadImage(FLOWER_IMG_RSC);
 		ResourceManager.loadImage(MEAT_IMG_RSC);
 		ResourceManager.loadImage(UNDERBRUSH_IMG_RSC);
+		ResourceManager.loadImage(NEST_IMG_RSC);
 		ResourceManager.loadImage(VERTEX_IMG_RSC);
 	}
 	
 	private void createVertices() {
+		vPos.clear();
+		vertices.clear();
+		
 		// create vertices on graph for path finding
 		for (int i = 1; i < 16; i++) {
 			for (int j = 1; j < 12; j++) {
@@ -179,6 +165,92 @@ public class TigressGame extends StateBasedGame {
 			if (vPos.containsKey(below.toString()))
 				v.addNeighbors(vPos.get(below.toString()), "below");			
 		}
+	}
+	
+	public void level1Setup() {
+		for (int i = 0; i <= 4; i++)
+			underbrushes.add(new Underbrush(300, ScreenHeight - (i * 50)));
+		for (int i = 1; i <= 3; i++)
+			underbrushes.add(new Underbrush(300 - (i*50), ScreenHeight - (4*50)));
+		for (int i = 0; i <= 6; i++)
+			underbrushes.add(new Underbrush(600, i*50));
+		for (int i = 1; i <= 4; i++)
+			underbrushes.add(new Underbrush(600 - i * 50, 3*50));
+		for (int i = 0; i <= 4; i++)
+			underbrushes.add(new Underbrush(150, i * 50));
+		for (int i = 0; i <= 3; i++)
+			underbrushes.add(new Underbrush(450, ScreenHeight - i * 50));
+		for (int i = 1; i <= 4; i++)
+			underbrushes.add(new Underbrush(450 + i * 50, ScreenHeight - 3*50));
+		
+		createVertices();
+		
+		cubs.add(new Cub(50, 550));
+		cubs.add(new Cub(400, 50));
+		cubs.add(new Cub(250, 300));
+		
+		flowers.add(new Flower(500, 150));
+		meats.add(new Meat(150, 550));
+	}
+	
+	public void level2Setup() {
+		underbrushes.clear();
+		for (int i = 0; i <= 4; i++)
+			underbrushes.add(new Underbrush(i * 50, 200));
+		for (int i = 1; i <= 1; i++)
+			underbrushes.add(new Underbrush(4*50, 200 - (i*50)));
+		for (int i = 0; i <= 4; i++)
+			underbrushes.add(new Underbrush(150, ScreenHeight - i*50));
+		for (int i = 1; i <= 3; i++)
+			underbrushes.add(new Underbrush(150 + i * 50, ScreenHeight - 4*50));
+		for (int i = 0; i <= 4; i++)
+			underbrushes.add(new Underbrush(550, ScreenHeight - i*50));
+		for (int i = 2; i <= 7; i++)
+			underbrushes.add(new Underbrush(ScreenWidth - i * 50, 200));
+		for (int i = 0; i <= 1; i++)
+			underbrushes.add(new Underbrush(500, i*50));
+		
+		createVertices();
+		
+		cubs.add(new Cub(50, 400));
+		cubs.add(new Cub(450, 50));
+		cubs.add(new Cub(400, 350));
+		cubs.add(new Cub(500, 550));
+		
+		flowers.add(new Flower(700, 300));
+		meats.add(new Meat(230, 500));
+	}
+	
+	public void level3Setup() {
+		underbrushes.clear();
+		// create all underbrush
+		for (int i = 0; i <= 2; i++)
+			underbrushes.add(new Underbrush(i * 50, 200));
+		for (int i = 0; i <= 8; i++)
+			underbrushes.add(new Underbrush(i * 50, ScreenHeight - 3*50));
+		for (int i = 1; i <= 4; i++)
+			underbrushes.add(new Underbrush(5 * 50, ScreenHeight - 3*50 - i * 50));
+		for (int i = 0; i <= 1; i++)
+			underbrushes.add(new Underbrush(250, i * 50));
+		for (int i = 0; i <= 2; i++)
+			underbrushes.add(new Underbrush(i * 50, 200));
+		for (int i = 0; i <= 5; i++)
+			underbrushes.add(new Underbrush(ScreenWidth - 3 * 50, ScreenHeight - i * 50));
+		for (int i = 0; i <= 5; i++)
+			underbrushes.add(new Underbrush(450, i * 50));
+		for (int i = 0; i <= 2; i++)
+			underbrushes.add(new Underbrush(450 + i * 50, 200));
+		
+		createVertices();
+		
+		cubs.add(new Cub(400, 550));
+		cubs.add(new Cub(400, 50));
+		cubs.add(new Cub(50, 300));
+		cubs.add(new Cub(600, 350));
+		cubs.add(new Cub(300, 400));
+		
+		flowers.add(new Flower(200, 550));
+		meats.add(new Meat(400, 150));
 	}
 	
 	public static void main(String[] args) {

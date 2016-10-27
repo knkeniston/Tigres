@@ -51,7 +51,7 @@ import jig.Vector;
 				}
 			}
 			if (bg.tigress.getVertex() != null && 
-					bg.vPos.containsKey(bg.tigress.getVertex()) &&
+					bg.vPos.containsKey(bg.tigress.getVertex().toString()) &&
 					distances.get(bg.tigress.getVertex().toString()) != null &&
 					distances.get(bg.tigress.getVertex().toString()) < minDist) {
 				minDist = distances.get(bg.tigress.getVertex().toString());
@@ -70,17 +70,20 @@ import jig.Vector;
 			if (path != null && path.size() > 0)
 				nextPos = path.get(0);
 			if (nextPos != null && nextPos.getX() > vPos.getX()) {
-				setVelocity(new Vector(.1f, 0f));
+				setVelocity(new Vector(.07f, 0f));
 				direction = "right";
 			} else if (nextPos != null && nextPos.getX() < vPos.getX()) {
-				setVelocity(new Vector(-.1f, 0f));
+				setVelocity(new Vector(-.07f, 0f));
 				direction = "left";
 			} else if (nextPos != null && nextPos.getY() > vPos.getY()) {
-				setVelocity(new Vector(0f, .1f));
+				setVelocity(new Vector(0f, .07f));
 				direction = "below";
-			} else if (nextPos != null) {
-				setVelocity(new Vector(0f, -.1f));
+			} else if (nextPos != null && path != null) {
+				setVelocity(new Vector(0f, -.07f));
 				direction = "above";
+			} else {
+				setVelocity(new Vector(0f, 0f));
+				direction = "none";
 			}
 			/*System.out.println("path: " + path);
 			System.out.println("currentpos: " + vPos.toString());
