@@ -47,8 +47,14 @@ import jig.Vector;
 			removeImage(ResourceManager.getImage(getCurImage()));
 			setCurImage(null);
 			setFacing(-1);
+			setvPos(-1, -1);
+			setVelocity(new Vector(0f, 0f));
 		}
 		held = val;
+	}
+	
+	public boolean isHeld() {
+		return held;
 	}
 	
 	/**
@@ -60,7 +66,7 @@ import jig.Vector;
 	}
 	
 	public void setMoving(TigressGame bg) {
-		if ((hasPassed() || firstPath) && waitTime <= 0) {
+		if ((hasPassed() || firstPath) && waitTime <= 0 && !isHeld()) {
 			if (firstPath)
 				firstPath = false;
 			//nextPos = path.get(0);
@@ -84,10 +90,10 @@ import jig.Vector;
 				setVelocity(new Vector(0f, -.07f));
 				direction = "above";
 			}
-			System.out.println("currentpos: " + vPos.toString());
+			/*System.out.println("currentpos: " + vPos.toString());
 			System.out.println("nextpos: " + nextPos.toString());
 			System.out.println("direction: " + direction);
-			System.out.println("--------------------------------------------");
+			System.out.println("--------------------------------------------");*/
 			waitTime = rand.nextInt(200);
 		}
 		if (hasPassed()) {

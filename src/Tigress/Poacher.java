@@ -1,13 +1,9 @@
 package Tigress;
-
-import java.util.ArrayList;
+	
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
-
-import jig.Entity;
-import jig.ResourceManager;
 import jig.Vector;
 
  class Poacher extends MovingEntity {
@@ -25,7 +21,6 @@ import jig.Vector;
 	
 	private boolean trapped;
 	private Vertex nextPos;
-	private Vector movingDir;
 	private String direction;
 	private boolean firstPath;
 	private boolean reset;
@@ -39,53 +34,51 @@ import jig.Vector;
 		reset = false;
 	}
 	
-	private void nearestTiger(ArrayList<Cub> cubs, Tigress tigress, ArrayList<Vertex> vertices) {
-		Map<Vector, Entity> m = new HashMap<Vector, Entity>();
-		m.put(tigress.getPosition(), tigress);
-		for (Cub c : cubs)
-			m.put(c.getPosition(), c);
-		for (Vector pos : m.keySet()) {
-			
-		}
-	}
-	
 	public void setMoving(TigressGame bg) {
 		if (hasPassed() || firstPath || reset) {
-			reset = false;
 			Map<String, Integer> distances = getDistances(bg);
 			int minDist = Integer.MAX_VALUE;
 			Vertex closest = null;
 			for (Cub c : bg.cubs) {
-				Vertex pos = c.getVertex();
-				if (distances.get(pos.toString()) < minDist) {
-					minDist = distances.get(pos.toString());
-					closest = pos;
+				if (!c.isHeld()) {
+					Vertex pos = c.getVertex();
+					if (pos != null && bg.vPos.containsKey(pos.toString()) &&
+							distances.get(pos.toString()) != null &&
+							distances.get(pos.toString()) < minDist) {
+						minDist = distances.get(pos.toString());
+						closest = pos;
+					}
 				}
 			}
-			if (distances.get(bg.tigress.getVertex().toString()) < minDist) {
+			if (bg.tigress.getVertex() != null && 
+					bg.vPos.containsKey(bg.tigress.getVertex()) &&
+					distances.get(bg.tigress.getVertex().toString()) != null &&
+					distances.get(bg.tigress.getVertex().toString()) < minDist) {
 				minDist = distances.get(bg.tigress.getVertex().toString());
 				closest = bg.tigress.getVertex();
 			}
 			
 			LinkedList<Vertex> path;
-			if (!firstPath) {
+			if (!firstPath && !reset) {
 				path = search(getNextPos(), closest);
 				vPos = nextPos;
 			} else {
 				path = search(vPos, closest);
 				firstPath = false;
+				reset = false;
 			}
-			nextPos = path.get(0);
-			if (nextPos.getX() > vPos.getX()) {
+			if (path != null && path.size() > 0)
+				nextPos = path.get(0);
+			if (nextPos != null && nextPos.getX() > vPos.getX()) {
 				setVelocity(new Vector(.1f, 0f));
 				direction = "right";
-			} else if (nextPos.getX() < vPos.getX()) {
+			} else if (nextPos != null && nextPos.getX() < vPos.getX()) {
 				setVelocity(new Vector(-.1f, 0f));
 				direction = "left";
-			} else if (nextPos.getY() > vPos.getY()) {
+			} else if (nextPos != null && nextPos.getY() > vPos.getY()) {
 				setVelocity(new Vector(0f, .1f));
 				direction = "below";
-			} else {
+			} else if (nextPos != null) {
 				setVelocity(new Vector(0f, -.1f));
 				direction = "above";
 			}
@@ -157,24 +150,26 @@ import jig.Vector;
 		LinkedList<Vertex> closedList = new LinkedList<Vertex>();
 		LinkedList<Vertex> openList = new LinkedList<Vertex>();
 		Map<String, Vertex> parents = new HashMap<String, Vertex>();
-		openList.add(start);
-		parents.put(start.toString(), null);
- 
-		while (!openList.isEmpty()) {
-			Vertex v = openList.removeFirst();
-			if (v.toString().equals(goal.toString())) {
-				return constructPath(goal, parents);
-			} else {
-				closedList.add(v);
-				  
-				for (Vertex neighbor : v.getNeighbors()) {
-					if (!closedList.contains(neighbor) && !openList.contains(neighbor)) {
-						parents.put(neighbor.toString(), v);
-						openList.add(neighbor);
+		if (start != null && goal != null) {
+			openList.add(start);
+			parents.put(start.toString(), null);
+	 
+			while (!openList.isEmpty()) {
+				Vertex v = openList.removeFirst();
+				if (v != null && v.toString().equals(goal.toString())) {
+					return constructPath(goal, parents);
+				} else if (v != null) {
+					closedList.add(v);
+					  
+					for (Vertex neighbor : v.getNeighbors()) {
+						if (!closedList.contains(neighbor) && !openList.contains(neighbor)) {
+							parents.put(neighbor.toString(), v);
+							openList.add(neighbor);
+						}
 					}
 				}
 			}
-		}		    
+		}
 		  
 		return null;
 	}
@@ -188,9 +183,11 @@ import jig.Vector;
 		return path;
 	}
 	
-	protected void setReset() {
+	protected void setReset(TigressGame bg) {
 		reset = true;
-		vPos = new Vertex(50, 50);
+		Vertex v = new Vertex(50, 50);
+		vPos = bg.vPos.get(v.toString());
+		nextPos = null;
 	}
 	
 }
